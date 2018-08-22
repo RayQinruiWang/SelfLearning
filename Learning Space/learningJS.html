@@ -17,16 +17,17 @@
 		</style>
 	</head>
 	<body>
+		<p>This is a HTML text</p>
+
 		<p id = "sayHello"></p>
 		<script type="text/javascript">
-			var yourName = prompt("What is our name?");
+			document.write("From here it's JavaScript text <br />");
+			var PI = Math.abs(-8);
+			var balance = 1563.87;
+			document.write("Monthly Payment: ", Math.ceil(balance/12), "<br />")
 
-			if(yourName != null){
-				document.getElementById("sayHello").innerHTML= "Hello " + yourName;
-			}
-			else{
-				alert("Please enter a name next time!");
-			}
+		var randNum = Math.floor(Math.random()*10+1);
+		document.write("Random Number = " + randNum);	
 		</script>
 	</body>
 </html>
