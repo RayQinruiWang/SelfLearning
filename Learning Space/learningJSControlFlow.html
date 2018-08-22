@@ -59,13 +59,43 @@
 			//condition clause
 			var canIVote = (age>=18) ? true:false;
 			if(canIVote){
-				document.write("Yes you can vote");
+				document.write("Yes you can vote", "<br/>");
 			}else{
-				document.write("No you cannot vote");
+				document.write("No you cannot vote", "<br/>");
 			}
 
-			//while loop
-			
+			//while loop & do-while loop
+			var i = 1;
+			while (i<=10) {
+				document.write(i + "<br/>");
+				i++;
+			}
+
+/*			do {
+				var guess = prompt("Guess a number between 1 and 20");
+			}
+			while(guess != 15){
+				alert("You guessed it 15!", "<br/>");
+			}
+*/
+			//for loop
+			for(j=0; j<10; j++){
+				if (j%2 == 0){
+					continue;
+				}
+				else if (j === 7) {
+					break;
+				}
+				else{
+					document.write(j, "<br/>");
+				}
+			}
+
+			//for loop in JSON objects
+			var customer = {name: "Ray Wang", address: "8 Dougherty Court, Mulgrave", balance: 100000};
+			for(k in customer){
+				document.write(customer[k] + "<br/>")
+			}	
 
 		</script>
 	</body>
