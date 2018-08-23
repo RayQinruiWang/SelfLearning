@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<script src="learningJS.js"></script>
+
+		<style type="text/css">
+			body {font-size: 1.6em;}
+			.hidden {display:none;}
+			.show {display: inline !important;}
+			button {
+				border: 2px solid black; background: #E5E4E2;
+				font-size:  .5em; font-weight: bold; color: black;
+				padding: .8em 2em;
+				margin-top: .4em;
+			}
+		</style>
+	</head>
+	<body>
+		<p>This is a HTML text</p>
+
+		<!-- This is a comment-->
+		<script type="text/javascript">
+			document.write("From here it's JavaScript text: <br /><br />");
+
+			// This is how a function is defined
+			function inArray(arrayToCheck, value){
+				for(i = 0; i < arrayToCheck.length; i++){
+					if (arrayToCheck[i] === value){
+						return true;
+					}
+				}
+				return false;
+			}
+
+			//Testing the new function
+			var testArray = [1,3,5,7,9];
+			var target = 5;
+			document.write(inArray(testArray, target), "<br/>");
+
+			// local variables only lives in a function
+			function timesN(num){
+				var localVariable = 2;
+				return num * localVariable;
+			}
+			document.write(timesN(3), "<br/>");
+
+			// functions can be passed in as variables
+			function multiply(func, num){
+				return func(num);
+			}
+			// when this kind of function is called, only refer to it with the name, no () needed
+			document.write(multiply(timesN,5) ,"<br/>");
+
+			// funcion expressions as variables
+			var triple = function(num){
+				return num *3;
+			}
+			document.write(multiply(triple, 15), "<br/>");
+
+			// variable dont need to be pre defined
+			function getSum(){
+				var sum = 0 ;
+				for(i = 0; i < arguments.length; i++){
+					sum += arguments[i];
+				}
+				return sum;
+			}
+			document.write(getSum(1,2,3,4,5), "<br/>");
+
+			// Double an array example
+			function doubleArray(theArray){
+				for (i = 0; i<theArray.length; i++){
+					theArray.push(theArray[0]*2);
+					theArray.shift();
+				}
+				return theArray;
+			}
+			document.write(doubleArray([1,2,3,4,5]), "<br/>")
+
+			// recursive functions are also available
+			function factorial(num){
+				if (num <= 1){
+					return 1;
+				} else {
+					return num*factorial(num-1);
+				}
+			}
+			document.write(factorial(4), "<br/>");
+			document.write(factorial(1), "<br/>");
+			document.write(factorial(5), "<br/>");
+
+		</script>
+	</body>
+</html>

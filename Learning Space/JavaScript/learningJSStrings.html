@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<script src="learningJS.js"></script>
+
+		<style type="text/css">
+			body {font-size: 1.6em;}
+			.hidden {display:none;}
+			.show {display: inline !important;}
+			button {
+				border: 2px solid black; background: #E5E4E2;
+				font-size:  .5em; font-weight: bold; color: black;
+				padding: .8em 2em;
+				margin-top: .4em;
+			}
+		</style>
+	</head>
+	<body>
+		<p>This is a HTML text</p>
+		<!-- When writting comments outside the JS block we have to use html standard-->
+
+		<p id = "sayHello"></p>
+
+		<script type="text/javascript">
+			document.write("From here it's JavaScript text: <br /><br />");
+
+			var randStr = "This is a very long test String";
+
+			// JavaScript uses same comment notation as JAVA
+			// Both + and , can bu used to bind outputs in document.write
+			document.write("This is the String we're playing with: " + randStr +"<br/>");
+			document.write("The length of the string is: " + randStr.length + "<br/>");
+			document.write("Index for \"very\" :", randStr.indexOf("very"), "<br/>");
+			document.write("This how we slice a string from index 5 to 10 including 5 but not 10: ", randStr.slice(5, 10), "<br/>");
+			document.write("This how we slice for the same string using substring: ", randStr.substr(5, 5), "<br/>");
+			document.write("This how we slice a string from index 5 to the end: ", randStr.slice(5), "<br/>");
+			document.write("For index 3 of a char: ", randStr.charAt("3"), "<br/>");
+			document.write("If we use replace funciong to change some word then: ", randStr.replace("a", "not a"),"<br/>");
+
+			//JS can style strings too
+			var strToStyle = "Random String";
+			document.write("Big:", strToStyle.big(), "<br/>");
+			document.write("Strike:", strToStyle.strike(), "<br/>");
+		</script>
+	</body>
+</html>

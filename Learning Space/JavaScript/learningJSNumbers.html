@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<script src="learningJS.js"></script>
+
+		<style type="text/css">
+			body {font-size: 1.6em;}
+			.hidden {display:none;}
+			.show {display: inline !important;}
+			button {
+				border: 2px solid black; background: #E5E4E2;
+				font-size:  .5em; font-weight: bold; color: black;
+				padding: .8em 2em;
+				margin-top: .4em;
+			}
+		</style>
+	</head>
+	<body>
+		<p>This is a HTML text</p>
+
+		<p id = "sayHello"></p>
+		<!-- This is a comment-->
+		<script type="text/javascript">
+			document.write("From here it's JavaScript text: <br /><br />");
+			
+			var pi = Math.PI;
+			document.write("The math function provide constant PI: " + pi, "<br /><br />");
+			
+			var balance = 32000;
+			document.write("Monthly Payment: ", Math.ceil(balance*1.06/12), "<br /><br />");
+
+			document.write("Convert a String into a number: ", Number("3.14"),"<br />");
+			document.write("Convert a String into a Int: ", parseInt("3.14"),"<br />");
+			document.write("Convert a String into a Float: ", parseFloat("3.14"),"<br /><br />");
+
+			var randNum = Math.floor(Math.random()*10+1);
+			document.write("Random Number = " + randNum);
+
+			
+			
+		</script>
+	</body>
+</html>

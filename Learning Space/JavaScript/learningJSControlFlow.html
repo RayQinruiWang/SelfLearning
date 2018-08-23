@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<script src="learningJS.js"></script>
+
+		<style type="text/css">
+			body {font-size: 1.6em;}
+			.hidden {display:none;}
+			.show {display: inline !important;}
+			button {
+				border: 2px solid black; background: #E5E4E2;
+				font-size:  .5em; font-weight: bold; color: black;
+				padding: .8em 2em;
+				margin-top: .4em;
+			}
+		</style>
+	</head>
+	<body>
+		<p>This is a HTML text</p>
+		<!-- When writting comments outside the JS block we have to use html standard-->
+
+		<p id = "sayHello"></p>
+
+		<script type="text/javascript">
+			document.write("From here it's JavaScript text: <br /><br />");
+
+			var age = 19;
+
+			//logical opertors are basically same as java except || is // and
+			// Here's if clause
+			if(age<=10 && age >=5){
+				document.write("go to primary school", "<br/>")
+			}else if (age >= 18){
+				document.write("go to college", "<br/>")
+			}else {
+				document.write("go to middle school","<br/>")
+			}
+
+			// == is not recommonde because it doesn't compare type, so you should use === instead of ==
+			document.write("\"5\" == 5 :" ,("5" == 5), "<br/>");
+			document.write("\"5\" === 5 :" ,("5" === 5), "<br/>");
+
+			//Switch clause, for limited options
+			switch (age) {
+				case 5:
+				case 6:
+					document.write("go to primary school", "<br/>")
+					break;
+				case 19:
+					document.write("go to college", "<br/>")
+					break;
+				//If nothing matches
+				default:
+					document.write("System's default output", "<br/>")
+					break;
+			}
+
+			//condition clause
+			var canIVote = (age>=18) ? true:false;
+			if(canIVote){
+				document.write("Yes you can vote", "<br/>");
+			}else{
+				document.write("No you cannot vote", "<br/>");
+			}
+
+			//while loop & do-while loop
+			var i = 1;
+			while (i<=10) {
+				document.write(i + "<br/>");
+				i++;
+			}
+
+/*			do {
+				var guess = prompt("Guess a number between 1 and 20");
+			}
+			while(guess != 15){
+				alert("You guessed it 15!", "<br/>");
+			}
+*/
+			//for loop
+			for(j=0; j<10; j++){
+				if (j%2 == 0){
+					continue;
+				}
+				else if (j === 7) {
+					break;
+				}
+				else{
+					document.write(j, "<br/>");
+				}
+			}
+
+			//for loop in JSON objects
+			var customer = {name: "Ray Wang", address: "8 Dougherty Court, Mulgrave", balance: 100000};
+			for(k in customer){
+				document.write(customer[k] + "<br/>")
+			}	
+
+		</script>
+	</body>
+</html>
