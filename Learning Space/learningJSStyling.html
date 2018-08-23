@@ -14,16 +14,32 @@
 				padding: .8em 2em;
 				margin-top: .4em;
 			}
+			div#sampleDiv{
+				margin:30px;
+				padding: 30px;
+			}
 		</style>
 	</head>
 	<body>
-		<p>This is a HTML text</p>
+		<section>
+			<div id = "sampleDiv">
+				<p>HTML (HyperText Markup Language) is the most basic building block of the Web. </p>
+				It describes and defines the content of a webpage along with the basic layout of the webpage. <br />
+				Other technologies besides HTML are generally used to describe a web page's appearance/presentation (CSS) or functionality/ behavior (JavaScript). <br />
+			</div>
+		</section>
+
+		<button id = "changeBackgroundColor">Background Color</button><br />
+		<button id = "changeBorderStyle">Boeder Style</button><br />
+		<button id = "changeBorderWidth">Boeder Width</button><br />
+		<button id = "changeBorderColor">Boeder Color</button><br />
+		<button id = "reloadBtn">reload Page</button>
+		<button id = "forwardPage">Forward</button>
+		<button id = "backPage">Back</button>
+		<button id = "goToGoogle">Google</button><br />
 
 		<!-- This is a comment-->
-		<script type="text/javascript">
-			document.write("From here it's JavaScript text: <br /><br />");
-			
-
+		<script type="text/javascript" src = "learningJSStyling.js">
 		</script>
 	</body>
 </html>
