@@ -27,7 +27,7 @@ function longReverse(x){
 		//reassemble into int
 		for (i=0;i<arr.length;i++){
 			result += arr[i] * Math.pow(10,i);
-		}
+		}		
 	}
 	if (result >= bound){
 		result  = 0;
