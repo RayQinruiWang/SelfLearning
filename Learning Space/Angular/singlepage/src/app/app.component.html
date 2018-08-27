@@ -7,7 +7,7 @@
   <ul>
     <li *ngFor = "let item of items; let ind = index">
       {{item}}
-      <span (click) = "removeItem(ind)">x</span>
+      <span (click) = "removeItem(ind)"><button>Delete</button></span>
 
     </li>
   </ul>

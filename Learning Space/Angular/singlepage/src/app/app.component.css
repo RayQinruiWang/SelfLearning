@@ -33,6 +33,7 @@ h1 {
     height: 45px;
     width: 50px;
     padding: 5px;
+    cursor: pointer;
 }
 
 ul {
@@ -50,7 +51,7 @@ li {
     margin-bottom: 5px;
 }
 
-span{
+span button{
     cursor: pointer;
     position: relative;
     float: right;
