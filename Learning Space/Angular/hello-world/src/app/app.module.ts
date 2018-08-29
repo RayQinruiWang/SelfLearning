@@ -4,11 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { TestComponent } from './test/test.component';
+import { ExtraComponent } from './extra/extra.component';
+import { PipesComponent } from './pipes/pipes.component';
+import { BindingComponent } from './binding/binding.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    TestComponent
+    TestComponent,
+    ExtraComponent,
+    PipesComponent,
+    BindingComponent
   ],
   imports: [
     BrowserModule,

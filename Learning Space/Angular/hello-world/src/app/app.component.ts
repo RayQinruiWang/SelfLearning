@@ -21,13 +21,9 @@ export class AppComponent {
   public name = "Ray";
   public localUrl = window.location.href; 
   public colors = ["red","green","orange","black"];
-  public isDisabled = true;
-  public successClass = "text-success";
-  public hasError = false;
-  public isSpecial = true;
-  public highlightColor = "green";
-  public greetings = "";
-  public displayHTML = true;
+ 
+  
+  public date = new Date();
 
   public multiSytle = {
     color : "blue",
@@ -38,11 +34,7 @@ export class AppComponent {
     console.log(value);
   }
 
-  onClick(event){ 
-    console.log(event);
-    // Access DOM event this way
-    this.greetings = "You have " + event.type;
-  };
+  
   
   greetUser(){
     return "Hello " + this.name;
