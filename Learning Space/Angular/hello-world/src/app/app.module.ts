@@ -7,6 +7,7 @@ import { TestComponent } from './test/test.component';
 import { ExtraComponent } from './extra/extra.component';
 import { PipesComponent } from './pipes/pipes.component';
 import { BindingComponent } from './binding/binding.component';
+import { TodoService } from './todo.service';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,10 @@ import { BindingComponent } from './binding/binding.component';
     BrowserModule,
     FormsModule
   ],
-  providers: [],
+
+  // DI step 2 register service with angular injector
+  // A un-registered service is just a regular class
+  providers: [TodoService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

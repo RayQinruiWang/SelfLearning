@@ -19,3 +19,9 @@ This is an example of two way binding(Use both () and [])<br/>
 <h2 *ngIf = "displayHTML; then thenBlock; else elseBlock"></h2>
 <ng-template #thenBlock> You've reached thenBlock, you can do things as a loggedin user</ng-template>
 <ng-template #elseBlock>You've reached elseBlcok, you can not do much here</ng-template>
+<div bind-ngSwitch = "highlightColor">
+  <div *ngSwitchCase = "'red'">Your highlight color is red</div>
+  <div *ngSwitchCase = "'orange'">Your highlight color is orange</div>
+  <div *ngSwitchCase = "'green'">Your highlight color is green</div>
+  <div *ngSwitchDefault>Pick again</div>
+</div>
