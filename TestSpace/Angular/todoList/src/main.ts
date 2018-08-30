@@ -1,3 +1,5 @@
+// This is where the whole app starts, just like main function in any other programs
+
 import { enableProdMode } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 

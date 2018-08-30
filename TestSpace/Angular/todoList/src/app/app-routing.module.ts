@@ -20,4 +20,5 @@ const routes: Routes = [
 })
 export class AppRoutingModule { }
 
+// Let app.module inport from here so only one file has to be changed when new component is created
 export const routingComponents = [ SignupComponent, PageNotFoundComponent, LoginComponent]

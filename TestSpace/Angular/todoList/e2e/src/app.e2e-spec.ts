@@ -1,3 +1,4 @@
+// This is where end-to-end testing cases go
 import { AppPage } from './app.po';
 
 describe('workspace-project App', () => {
