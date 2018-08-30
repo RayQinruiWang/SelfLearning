@@ -1,4 +1,6 @@
+//force conversion of observable
+
 export interface Itodo{
-    owner: string,
-    todos
+    description: string,
+    category: string
 }

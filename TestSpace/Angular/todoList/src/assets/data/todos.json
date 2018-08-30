@@ -1,0 +1,7 @@
+[
+    {"description":"Learn Angular","category":"Learning"},
+    {"description":"Learn JavaEE","category":"Learning"},
+    {"description":"Learn advanced HTML and CSS","category":"Web"},
+    {"description":"Learn testing","category":"Extra"},
+    {"description":"Have a beer","category":"Fun"}
+]
