@@ -9,4 +9,8 @@
   <a routerLink="/signup" routerLinkActive="active">Signup</a>&nbsp;&nbsp;
   <a routerLink="/login" routerLinkActive="active">login</a>
 </nav>
+  <ul>
+    <li *ngFor = "let todo of todos">{{todo}}</li>
+  </ul>
+  <div>{{todoString}}</div>
 <router-outlet></router-outlet>

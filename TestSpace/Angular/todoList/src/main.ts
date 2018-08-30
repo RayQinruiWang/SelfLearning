@@ -10,5 +10,6 @@ if (environment.production) {
   enableProdMode();
 }
 
+// On boot it fires up AppModule
 platformBrowserDynamic().bootstrapModule(AppModule)
   .catch(err => console.log(err));

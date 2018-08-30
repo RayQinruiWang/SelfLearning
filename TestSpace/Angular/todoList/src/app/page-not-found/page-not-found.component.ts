@@ -1,3 +1,4 @@
+// This is the component to handle the wildcard routing
 import { Component, OnInit } from '@angular/core';
 
 @Component({
