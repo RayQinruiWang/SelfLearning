@@ -5,12 +5,12 @@
     Or, you can signup here
   </h1>
 </div>
+<p>{{todos}}</p>
 <nav>
   <a routerLink="/signup" routerLinkActive="active">Signup</a>&nbsp;&nbsp;
   <a routerLink="/login" routerLinkActive="active">login</a>
 </nav>
   <ul>
-    <li *ngFor = "let todo of todos">{{todo}}</li>
+    <li *ngFor = "let todo of todos"></li>
   </ul>
-  <div>{{todoString}}</div>
 <router-outlet></router-outlet>

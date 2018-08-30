@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { TodoService } from './todo.service';
 
 // selector makes this component involkable as <selector></selector>
@@ -8,17 +8,16 @@ import { TodoService } from './todo.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
   title = 'todoList';
   todos;
-  todoString;
 
-  constructor(service: TodoService){
-    this.todos = service.getTodo();
-    this.todoString = service.getTodoString();
+  constructor( private _service: TodoService){
   }
 
-  display(todo){
+  ngOnInit(){
+    this._service.getTodo().subscribe(data => this.todos = data);
   }
+
 
 }
