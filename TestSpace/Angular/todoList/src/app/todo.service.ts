@@ -12,6 +12,7 @@ export class TodoService {
 
   // Will fail, same origin not allowed
   // private _url: string = "http://localhost:8080/JavaAPI/rest/gettodo?owner=Ray"
+  private _url: string = "https://api.github.com/users/ayst0001";
   private _testPath: string = "/assets/data/rayTodos.json";
   constructor(private http : HttpClient) { }
   
@@ -19,6 +20,11 @@ export class TodoService {
     // This has to come from a RESTful API call
     // This returns a observable, has to be force converted into object
     return this.http.get<ICompleteTodo>(this._testPath);
+    
+  }
+
+  getProfile(){
+    return this.http.get(this._url);
   }
 
 

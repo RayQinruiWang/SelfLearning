@@ -1,18 +1,28 @@
 <!--The content below is only a placeholder and can be replaced.-->
 <div style="text-align:center">
   <h1>
-    Welcome to to-do list, please login first
-    Or, you can signup here
+    Welcome to to-do list
   </h1>
 </div>
 <nav>
   <a routerLink="/signup" routerLinkActive="active">Signup</a>&nbsp;&nbsp;
   <a routerLink="/login" routerLinkActive="active">login</a>
 </nav>
-  <ul>
-    <li *ngFor = "let todo of fullTodo.todos">
-      Description:  {{todo.description}}
-      &nbsp;&nbsp; 
-      Category: {{todo.category}}</li>
-  </ul>
+<div> Here's your Github Profile we fetched from Github API
+ <ul>
+   <li>Login ID: {{profile.login}}</li>
+   <li>ID: {{profile.id}}</li>
+   <li>Avatar URL: {{profile.avatar_url}}</li>
+   <li>Created on: {{profile.created_at}}</li>
+   <li>Last Update: {{profile.updated_at}}</li>
+ </ul> 
+</div>
+<div> Here's your todos we fetch from local file
+    <ul>
+        <li *ngFor = "let todo of fullTodo.todos">
+          Description:  {{todo.description}}
+          &nbsp;&nbsp; 
+          Category: {{todo.category}}</li>
+      </ul>
+</div>
 <router-outlet></router-outlet>

@@ -12,12 +12,14 @@ import { TodoService } from './todo.service';
 export class AppComponent implements OnInit{
   title = 'todoList';
   fullTodo : ICompleteTodo;
+  profile;
 
   constructor(private _service: TodoService){
   }
 
   ngOnInit(){
+    this._service.getProfile().subscribe(data => this.profile = data);
     this._service.getTodo().subscribe(data => this.fullTodo = data);
   }
-  
+
 }
