@@ -10,7 +10,7 @@
   <a routerLink="/login" routerLinkActive="active">login</a>
 </nav>
   <ul>
-    <li *ngFor = "let todo of todos">
+    <li *ngFor = "let todo of fullTodo.todos">
       Description:  {{todo.description}}
       &nbsp;&nbsp; 
       Category: {{todo.category}}</li>

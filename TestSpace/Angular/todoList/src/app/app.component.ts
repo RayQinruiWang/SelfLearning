@@ -1,3 +1,4 @@
+import { ICompleteTodo } from './completeTodo';
 import { Component, OnInit } from '@angular/core';
 import { TodoService } from './todo.service';
 
@@ -10,14 +11,13 @@ import { TodoService } from './todo.service';
 })
 export class AppComponent implements OnInit{
   title = 'todoList';
-  todos;
+  fullTodo : ICompleteTodo;
 
-  constructor( private _service: TodoService){
+  constructor(private _service: TodoService){
   }
 
   ngOnInit(){
-    this._service.getTodo().subscribe(data => this.todos = data);
+    this._service.getTodo().subscribe(data => this.fullTodo = data);
   }
-
-
+  
 }
