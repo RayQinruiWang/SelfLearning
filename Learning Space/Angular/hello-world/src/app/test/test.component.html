@@ -1,5 +1,5 @@
-<p>
-  From here is the child conponent of test
-</p>
-<h2>{{"This is the name passed in from parent conponent: " + name}}</h2>
-<button (click) = fireEvent() >Send Event</button>
+{{"This is the name passed in from parent conponent: " + name}}
+
+<button class = "btn btn-primary" [class.active] = "isActive" (click) = fireEvent() >
+  Send Event(and Data) From Child
+</button>

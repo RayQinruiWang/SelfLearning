@@ -7,17 +7,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BindingComponent implements OnInit {
 
-  
   constructor() { }
   public highlightColor = "green";
   public isDisabled = true;
   public successClass = "text-success";
+  // This is a class binding, if set to false, the attribute won't exist at all
   public isSpecial = true;
   public hasError = false;
   public greetings = "";
   public displayHTML = true;
 
-  onClick(event){ 
+  public multiStyle = {
+    color : "blue",
+    fontStyle: "italic"
+  };
+
+  showEvent(event){ 
     console.log(event);
     // Access DOM event this way
     this.greetings = "You have " + event.type;
@@ -30,6 +35,10 @@ export class BindingComponent implements OnInit {
     else {
       return "You've logged out";
     }
+  }
+
+  logMessage(value){
+    console.log(value);
   }
 
   ngOnInit() {

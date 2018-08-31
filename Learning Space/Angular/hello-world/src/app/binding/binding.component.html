@@ -1,27 +1,56 @@
-<h3>When having to passing data not in string type into view, property binding is necessary, </h3>
-<h3>Otherwise the attribute won't be passed into html: </h3>
-<input [disabled] = "isDisabled" type="text" value="Binding Syntax 1">
-<input bind-disabled = "isDisabled" type="text" value="Binding Syntax 2">
-<h3 class = "text-danger">This is to test if customised stylesheet works(danger)</h3>
-<h3 [class] = "successClass">This is to test if customised stylesheet works(success)</h3>
-<h3 [class.text-special] = "isSpecial">This is to test if customised stylesheet works(special)</h3>
-<h3 bind-style.color = "hasError ? 'red':'green'">This is error messge with conditional style binding</h3>
-<h3 [style.color] = "highlightColor">This is another style binding</h3>
-<h3 [ngStyle] = "multiSytle" >This is how to bind multiple style, use keyword"ngStyle"</h3>
-<h2>From here we're doing event binding, for example responding to keyboard event</h2>
-<button (click) = "onClick($event)">Greet</button>{{greetings}}<br/>
-<button (click) = "greetings = 'Now the greetings has changed'">Greet</button>Templet right in HTML<br/>
-<input #myInput type = "text">
-<button (click) = "logMessage(myInput.value)">Log</button><br/>
-This is an example of two way binding(Use both () and [])<br/>
-<input [(ngModel)] = "name" type = "text">{{name}}<br/>
-<button (click) = "displayHTML = !displayHTML">{{showStatus()|titlecase}}</button>
-<h2 *ngIf = "displayHTML; then thenBlock; else elseBlock"></h2>
-<ng-template #thenBlock> You've reached thenBlock, you can do things as a loggedin user</ng-template>
-<ng-template #elseBlock>You've reached elseBlcok, you can not do much here</ng-template>
-<div bind-ngSwitch = "highlightColor">
-  <div *ngSwitchCase = "'red'">Your highlight color is red</div>
-  <div *ngSwitchCase = "'orange'">Your highlight color is orange</div>
-  <div *ngSwitchCase = "'green'">Your highlight color is green</div>
-  <div *ngSwitchDefault>Pick again</div>
-</div>
+<h3>Here are examples of binding properties to HTML</h3>
+<ul class = "list-group" >
+  <li class= "list-group-item">
+    <input [disabled] = "isDisabled" type="text" value="Binding Syntax 1">
+  </li>
+  <li class= "list-group-item">
+      <input bind-disabled = "isDisabled" type="text" value="Binding Syntax 2">
+  </li>
+  <li class = "list-group-item text-danger">
+    This text should be red as specified in CSS (danger)
+  </li>
+  <li class = "list-group-item" [class.text-success] = "successClass">
+      This text should be green as specified in CSS (success)
+  </li>
+  <li class = "list-group-item " [class.text-special] = "isSpecial">
+      This text should be italic as customised in CSS (special)
+  </li>
+  <li class = "list-group-item" bind-style.color = "hasError ? 'red':'green'">
+      This is error messge with conditional style binding
+      <button class="btn" (click) = "hasError = !hasError"> change color</button>
+  </li>
+  <li class = "list-group-item" [ngStyle] = "multiStyle">
+      This is how to bind multiple style, use keyword "ngStyle" and a JSON as input
+  </li>
+</ul>
+
+<h3>From here we're doing event binding, for example responding to keyboard event</h3>
+<ul class = "list-group-item">
+  <li class = "list-group-item">
+    <button (click) = "showEvent($event)">Show what I have done as greeting</button>
+    <button (click) = "greetings = 'Now the greetings has changed'">Change Greetings</button>
+    {{greetings}}
+  </li>
+  <li class="list-group-item">
+    <button (click) = "displayHTML = !displayHTML" class = "btn">
+      {{showStatus()|titlecase}}
+    </button>
+    <h2 *ngIf = "displayHTML; then thenBlock; else elseBlock"></h2>
+    <ng-template #thenBlock> You've reached thenBlock, you can do things as a loggedin user</ng-template>
+    <ng-template #elseBlock>You've reached elseBlcok, you can not do much here</ng-template>
+  </li>
+  <li class="list-group-item">
+    <input [(ngModel)] = "name" type = "text" >{{name}}
+    This is an example of two way binding(Use both () and [])
+  </li>
+  <li class="list-group-item">
+    <input #myInput type = "text">
+    <button (click) = "logMessage(myInput.value)">Log this message</button>
+  </li>
+  <li class="list-group-item" bind-ngSwitch = "highlightColor">
+      <div *ngSwitchCase = "'red'">Your highlight color is red</div>
+      <div *ngSwitchCase = "'orange'">Your highlight color is orange</div>
+      <div *ngSwitchCase = "'green'">Your highlight color is green</div>
+      <div *ngSwitchDefault>Pick again</div>
+  </li>
+</ul>

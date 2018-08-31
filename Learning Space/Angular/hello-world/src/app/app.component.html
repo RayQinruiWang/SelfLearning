@@ -1,21 +1,39 @@
 <!--The content below is only a placeholder and can be replaced.-->
 <div style="text-align:left">
-    <!-- <app-pipes [parentData] = "name"></app-pipes> -->
-    <h2>Hello World From {{name}}</h2>
-    <h3>{{"This is how a JavaScript function (like name.length) is called: " + name.length}}</h3>
-    <h3>{{"This is how a method is called: " + greetUser()}}</h3>
-    <h3>{{"This is how to access global variable like window (has to access in the class): " + localUrl}}</h3>
-    <!-- <app-binding></app-binding> -->
-
-    <div *ngFor="let color of colors; odd as o">
-      <h2>{{o}} {{color}}</h2>
-    </div>
-    <h2>{{message}}</h2>
-    <ul *ngFor= "let todo of todos">
-      <li>{{todo.description}} &nbsp;&nbsp; {{todo.category}}</li>
+    <h2>Hello World From {{name}}, Here'are some fundimental operations</h2>
+    <ul class = "list-group">
+      <li class = "list-group-item">{{"This is how a JavaScript function (like name.length) is called: " + name.length}}</li>
+      <li class = "list-group-item">{{"This is how a method is called: " + greetUser()}}</li>
+      <li class = "list-group-item">{{"This is how to access global variable like window 
+          (has to access in the class): " + localUrl}}</li>
     </ul>
-  <app-test (childEvent) = "message=$event" [parentData] = "name"></app-test>
-  <app-extra></app-extra>
+    <br/>
+    <!-- <app-binding></app-binding> -->
+    <!-- <app-pipes [parentData] = "name"></app-pipes> -->
+    <!-- <app-extra></app-extra> -->
+    <h2>This is a advanced binding application with ngFor: </h2>
+    <table class="table table-bordered table-striped">
+      <thead>
+          <tr>
+              <td>Description</td>
+              <td>Category</td>
+          </tr>  
+      </thead>
+      <tbody *ngFor= "let todo of todos">
+          <tr>
+              <td>{{todo.description}}</td>
+              <td>{{todo.category}}</td>
+          </tr>
+      </tbody>
+    </table>
+
+    <h2>From here is the child conponent of test:</h2>
+    <ul class="list-group">
+      <li class="list-group-item">
+          <app-test (childEvent) = "childMessage=$event" [parentData] = "name"></app-test>
+      </li>
+      <li class="list-group-item">{{childMessage}}</li>
+    </ul>
 </div>
 
 

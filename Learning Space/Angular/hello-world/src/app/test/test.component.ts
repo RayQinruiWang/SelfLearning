@@ -7,6 +7,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 })
 export class TestComponent implements OnInit {
 
+  // This is how child component inport data from parent component
   @Input('parentData') public name;
   @Output() public childEvent = new EventEmitter();
   
@@ -15,8 +16,9 @@ export class TestComponent implements OnInit {
   ngOnInit() {
   }
   fireEvent(){
-    this.childEvent.emit('This is a message from child component');
+    this.childEvent.emit
+    ('This is a message from text (child) component');
   }
 
-
+  isActive = true
 }

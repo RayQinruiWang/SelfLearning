@@ -6,17 +6,6 @@ import { TodoService } from './todo.service';
   selector: 'app-root', //HTML tag
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
-  styles:[`
-    .text-success{
-      color:green
-    }
-    .text-danger{
-      color:red;
-    }
-    .text-special{
-      font-style: italic;
-    }
-  `]
 })
 export class AppComponent {
   
@@ -30,19 +19,14 @@ export class AppComponent {
 
   public name = "Ray";
   public localUrl = window.location.href; 
-  public colors = ["red","green","orange","black"];
   public date = new Date();
-
-  public multiSytle = {
-    color : "blue",
-    fontStyle: "italic"
-  };
-  
-  logMessage(value){
-    console.log(value);
-  }
+  public childMessage = "Default child message";
 
   greetUser(){
     return "Hello " + this.name;
   }
+  
+  
+
+  
 }
