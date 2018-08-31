@@ -11,15 +11,23 @@ import { TodoService } from './todo.service';
 })
 export class AppComponent implements OnInit{
   title = 'todoList';
+
+  // Local variables for storing data has to be initialised
   public fullTodo = {};
   public profile = {};
+  public todoErrorMsg = "";
+  public profileErrorMsg = "";
 
+  // Inject a dependency of TodoService to get data
   constructor(private _service: TodoService){
   }
 
   ngOnInit(){
-    this._service.getTodo().subscribe(data => this.fullTodo = data);
-    this._service.getProfile().subscribe(data => this.profile = data);
+    // getting data from RESTful API asychronously on Init
+    this._service.getTodo().subscribe(data => this.fullTodo = data,
+                                      error => this.todoErrorMsg = error);
+    this._service.getProfile().subscribe(data => this.profile = data,
+                                      error => this.profileErrorMsg = error);
   }
 
 }

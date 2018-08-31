@@ -15,6 +15,7 @@
 </div>
 <div align="center"> 
  <h2>Here's your Github Profile we fetched from Github API</h2>
+ <h3>{{profileErrorMsg}}</h3>
  <ul class = "w3-ul w3-card-4 w3-hoverable" style="width:80%">
    <li>Login ID: {{profile.login}}</li>
    <li>ID: {{profile.id}}</li>
@@ -25,7 +26,8 @@
 </div>
 <br/>
 <div align="center"> 
-    <h2>Here's your todos we fetch from local file</h2>
+    <h2>Here's your todos we fetched from local JSON file</h2>
+    <h3>{{todoErrorMsg}}</h3>
     <table class="w3-table-all w3-centered" >
       <tr>
           <th>description</th>
