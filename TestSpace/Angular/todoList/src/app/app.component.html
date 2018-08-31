@@ -1,15 +1,21 @@
 <!--The content below is only a placeholder and can be replaced.-->
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> 
 <div style="text-align:center">
   <h1>
     Welcome to to-do list
   </h1>
 </div>
-<nav>
-  <a routerLink="/signup" routerLinkActive="active">Signup</a>&nbsp;&nbsp;
-  <a routerLink="/login" routerLinkActive="active">login</a>
-</nav>
-<div> Here's your Github Profile we fetched from Github API
- <ul>
+<div align = "center">
+    <nav>
+        <a class="w3-button w3-red" routerLink="/signup" routerLinkActive="active">Signup</a>
+        &nbsp;&nbsp;
+        <a class="w3-button w3-green" routerLink="/login" routerLinkActive="active">login</a>
+        <router-outlet></router-outlet>
+      </nav>
+</div>
+<div align="center"> 
+ <h2>Here's your Github Profile we fetched from Github API</h2>
+ <ul class = "w3-ul w3-card-4 w3-hoverable" style="width:80%">
    <li>Login ID: {{profile.login}}</li>
    <li>ID: {{profile.id}}</li>
    <li>Avatar URL: {{profile.avatar_url}}</li>
@@ -17,12 +23,17 @@
    <li>Last Update: {{profile.updated_at}}</li>
  </ul> 
 </div>
-<div> Here's your todos we fetch from local file
-    <ul>
-        <li *ngFor = "let todo of fullTodo.todos">
-          Description:  {{todo.description}}
-          &nbsp;&nbsp; 
-          Category: {{todo.category}}</li>
-      </ul>
+<br/>
+<div align="center"> 
+    <h2>Here's your todos we fetch from local file</h2>
+    <table class="w3-table-all w3-centered" >
+      <tr>
+          <th>description</th>
+          <th>Category</th>
+      </tr>
+      <tr *ngFor = "let todo of fullTodo.todos">
+        <td>{{todo.description}}</td>
+        <td>{{todo.category}}</td>
+      </tr>
+      </table>
 </div>
-<router-outlet></router-outlet>

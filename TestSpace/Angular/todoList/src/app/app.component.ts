@@ -11,15 +11,15 @@ import { TodoService } from './todo.service';
 })
 export class AppComponent implements OnInit{
   title = 'todoList';
-  fullTodo : ICompleteTodo;
-  profile;
+  public fullTodo = {};
+  public profile = {};
 
   constructor(private _service: TodoService){
   }
 
   ngOnInit(){
-    this._service.getProfile().subscribe(data => this.profile = data);
     this._service.getTodo().subscribe(data => this.fullTodo = data);
+    this._service.getProfile().subscribe(data => this.profile = data);
   }
 
 }

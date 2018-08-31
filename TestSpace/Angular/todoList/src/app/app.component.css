@@ -1,9 +1,4 @@
-ul {
-    background: #3399ff;
-    padding: 20px;
-}
-
-ul li {
-    background: #cce5ff;
-    margin: 5px;
+table{
+    table-layout: fixed;
+    width: 80%;
 }
