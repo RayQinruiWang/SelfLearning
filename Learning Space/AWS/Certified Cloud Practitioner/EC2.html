@@ -1,0 +1,21 @@
+<ul>
+    <li>Pricing model: on demand, reserved instance(contract), on spot(bid), dedicated host(licence) </li>
+    <li>Uses EBS(Elastic Block Storage) running on VPC(virtual private cloud) as storage</li>
+    <li>Use Putty SSH to connect, allow port 22 is a must, 80,443,3389 are optional</li>
+    <li>EBS is distributed in different AZs, like S3</li>
+    <li>EBS has the following types
+        <ul>
+            <li>General purposed SSD, ~100, max 3000 IOPS</li>
+            <li>Provisioned IOPS SSD, >10000 IOPS</li>
+            <li>Throughout optimised HDD, connot be boost disk</li>
+            <li>Cold HDD, low cost, for IA</li>
+            <li>Magnetic, bootable cheap, slow, rarely used</li>
+        </ul>
+    </li>
+    <li>It's still a server, not serveless</li>
+    <li>EC2 can be assigned with roles with different access, so credentials don't need be stored</li>
+    <li>Roles can be attached on the go, but this is a recent feature</li>
+    <li>Roles are universal, not reginal</li>
+    <li>Apache is used to host website on EC2, yum install httpd -y</li>
+    <li>You can set up auto scalling and it will launch instances when needed</li>
+</ul>

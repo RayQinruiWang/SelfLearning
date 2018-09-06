@@ -1,0 +1,19 @@
+<ul>
+    <li>Global like IAM, Universual namespace, unique bucket names</li>
+    <li>Buckets are private by default, deployed in specific region</li>
+    <li>Can be used as a static website server, just make a HTML file public,it scales automatically</li>
+    <li>You have to have domain and bucket with the same name to host a static website</li>
+    <li>Typical URL: https://rigion.amazonaws.com/bucketname</li>
+    <li>S3 is file(Object) based, cannot store things like applications and OS that need block based</li>
+    <li>Objects have: metadata, versionID, key, value</li>
+    <li>speed level from low to high: </li>
+        <ul>
+            <li>Glacier</li>
+            <li>One Zone IA(Infrequent Access)</li>
+            <li>IA</li>
+            <li>Standard</li>
+        </ul>
+    <li>S3 are used for transfer acceleration, utilizing AWS backbone and edge location</li>
+    <li>Consistancy model: read after write, eventual write/delete</li>
+    <li>Read S3 FAQ before test <a href="https://aws.amazon.com/s3/faqs/">here</a> </li>
+</ul>

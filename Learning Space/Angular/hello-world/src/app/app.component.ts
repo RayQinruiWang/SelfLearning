@@ -25,8 +25,4 @@ export class AppComponent {
   greetUser(){
     return "Hello " + this.name;
   }
-  
-  
-
-  
 }
