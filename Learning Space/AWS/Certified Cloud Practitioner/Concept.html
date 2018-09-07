@@ -1,7 +1,20 @@
 <ul>
     <li>From large to small: Rigons -> AZ(Availbility zone) -> Edge Location(For CDN cache)</li>
     <li>Access policy are defined in JSON, following IaC(infrustructure as code) practice</li>
-    <li>It assests are becoming programmable resources</li>
+    <li>Cloudformation: IT assests are becoming programmable resources, and also disposable</li>
     <li>Gobal availability and unlimited capacity</li>
+    <li>Always try to automate, avoid coupling and toil. Coupling can be avoided by:</li>
+    <ul>
+        <li>Well defined API</li>
+        <li>Asynchronised integration</li>
+        <li>graceful failure</li>
+    </ul>
+    <li>Always try to use services insteaded of servers, Faas like lambda</li>
+    <li>Try to use stateless concepts(Lambda), only function, no storage(maybe compromise with cookies)</li>
+    <li>Always avoid single point of failure, this means redundancy dault isolation and failure detection</li>
+    <li>Always optimizing for cost, elasity, right sizing, different billing options</li>
+    <li>Consider caching</li>
+    <li>Security: Offload to AWS as much as possible, reduce priviliged access, security as code, auto real time auditing</li>
+    <li>High level feature built in, security built in</li>
     <li>Three ways to access services: Console, AWS CDI, SDKs</li>
 </ul>
