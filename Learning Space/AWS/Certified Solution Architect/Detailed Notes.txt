@@ -1,0 +1,138 @@
+IAM:
+
+Granular Permissions, Identit Federation with Facebook, Linkedin, etc.
+Provide temporary access for users/devices and services
+Manages password and their roatation policy(expiration, reuse, etc.)
+integrates with other AWS services
+User, Group(for users), Roles(for resources including users)
+When a new user is created, they have no access to anything by default
+policies: A JSON document that defines permissions, then attach to user/group/roles
+It is recommonded to only login to root when absulutly needed
+Access key ID and secret access key can conly be used in CMI or SDK
+Access key pair has to be regenerated if losted
+
+S3:
+
+File size can be from 0 to 5TB
+Read after write consistancy happens amost instantly
+Eventual consistancy can take seconds to sync through availability zone
+9*4 availability, 9*11 durability
+Lifecycle management/versioning/encryption/bucket policies/access control list for indevidual files
+S3 standard and IA can survive 2 AZ lost, one zone - IA cannot. IA charges retrival fee by GB
+Glacier: expdidited 3-5 mins, standard 3-5 hours, bulk 24 hours, IA and standard are millionseconds
+Bucket name must be unique because it's associated with a DNS address
+You can give other AWS account S3 access, commonly used within organizations
+Remember if successful you'll get a HTTP 200
+Client or Server side encryption may be used
+By default the bucket and all objects are private
+S3 versioning keeps every single version of the tracked file, it can be expensive
+S3 versioning can only be suspended not disabled onced enabled
+S3 versioning work in the form of overwriting same name objects
+S3 can config MFA delete
+S3 will put a delete marker if a file is deleted, unless delete mark is also deleted
+S3 versioning integrates with lifecycle rules
+S3 cross-region replication cannot be applied in the same region
+replication can be in another account, say there's a backup account for the entire organization
+S3 cross-region replication can be sub-folders or entire bucket
+S3 cross-region replication requires versioning enabled
+s3 cross-region replication can be grecier storage if it's just a backup
+upon the creation of a replication bucket, existing files won't be copied
+Easiest way to copy the existing files to replication bucket is to use CLI
+When object is deleted, replica bucket also delete it, but delete marker won't be synced for safety
+Same thing if a newer version is deleted, it won't be deleted in replica
+When a public file get's updated, it stops being public bu default
+Lifecycle management doesn't require versioning
+S3 Lifecycle management can be used when say data is only relavant for a certain period of time
+You can setup different tiers of storage for each stage of lifecycle
+lifecycle rules can be set differently for current and previous versions
+When an object is ttansitioned into glacier, it remains a reference in S3 to trigger restoration
+However, if an object is directly stored into glacier, you have to download and re upload
+CDN is not quicker for the first user, and edge location only cache data for a certain period of time(TTL, time to live)
+TTL is set bu the object being cached
+CloudFront work with non-amazon services too
+A distribution is the name of a collection of edge locations(like a distributor)
+There's two different typs of distribution, RTMP and web
+Origin can be on premise
+Once cloudfront is setup, you can block direct origin access, and use distribution only
+For frequently changing files TTL should not be too long
+It cost money to remove if file is not automatically de-cached
+Cloud can filter user(e.g. paid user) by only accepting sign url or cookies
+WAF works with CloudFront nicely
+CloudFront allows Gio-distributions, blcak or white list
+Taking down cached files is called invalidation, and it cost money
+S3 error message are in xml by default
+Even cross account logging and access is possible
+Encryption: In transition use SSH/TSL using https.
+Server side encryption: SSE-S3, SSE-KMS(key management service), SSE-C(customer)
+SSE plus Client side encryption are the four encryption types
+Storage gateway: have to download onto VM in your datacenter, consists of a a local storage/cache and a buffer that handles multi-part upload
+Types: File(NFS), Volume(Stored/Cached, iSCSI), Tape(backupVTL)
+File gateway backups local data center to S3
+Stored volume backups EBS snapshots to S3, a complete copy is kept locally, maximum 16 TB
+Cached volume only keeps recent state locally and rest in S3 as EBS snapshot, Maximum 32TB
+Tape backups physical tapes to virtual tapes
+Snowball: Once Import/Export, reinvented for better management
+Bypassing internet for large data set, snowball/snowball edge/snowball mobile
+Snowball can inport to or export from S3, Glacier has to be restored into S3 first to use snowball
+Standard Snowball: 50/80 TB size, 256bit encryption, erased after data recieved and verified
+Snowedge: 100TB, has compute capacity(use like a black box on plane)
+snowmobile: 100PB transition in truck for data center migration
+Snowball needs a local software client(CLI) to access, and credentials can be obtained from the console
+You need manifest file and private key to access snowball
+Connect through ethernet and It works as the S3 buckets, except the physical device is local
+S3 transfer acceleration: Users using edge locations to upload files to Bucket
+S3 transfer acceleration ULR : bucketname.S3-accelerat.amazonaws.com
+You can compare performance before and after in different regions with showcase link, the further the faster
+When hosting a static website on S3, you don't have to handle loadbalancing or other infrustructures, it scales 
+Domain name has to be the same as bucket name if the website is going public
+All linked files has to be public, traffic cost is neglegiable
+Standard URL: bucketname.s3-web-reigion.amazonaws.com
+Amazon monitors total storage usage and add infrustructure whenever it reaches certain threasholds
+Multipart upload is faster, and can elevate 5GB limit to 5TB
+One account can have 100 buckets at most
+S3 RRS are often used to store thumbnais, transcoded video, sucrafices duarbility
+
+EC2:
+Reserved instance: convertable instances is possibile as long as you spend more
+Reserved instance can be scheduled too
+Dedicated host: to deal with stupid regulation that agains multi-tenent virtulisation
+Dedicated host can be on-demand or reserved
+Letters for instance types never change, but generation might change
+EBS used to boot OS is the root drive, root volume cannot be encrypted unless use third party tool, or truned into snapshot first
+Provisioned SSD (IO1) can go up to 20000 IOPS
+Throughput optimised HDD (ST1, large data, log), Cold HDD(SC1, file server)
+Subnet means availability zone, one on one match
+detailed monitoring is available at an additional cost
+bootup script can be plain text or file
+By default, the EBS attached to EC2 are deleted on termination
+with AWS, idealy you tag everything and as much as possible
+SSH IP can be restrict down to my IP address from the terminal, but you may lose access after several hours when ISP changed your IP
+for SSH logging on from mac/linux, use SSH ec2-user@publicip -i keypair.pem
+To terminate a instance with protection, go to settings disable the protection first
+System check: infrustructure is alright
+Instance check: if instance OS works
+username can be stored in Putty from the beginning
+Security group is layer 4 virtual firewall, any new rules will be applied immediatly
+By default all inbound is blocked, all outbound is allowed
+Any inbound rule automatically introduces outbound rule (being StateFul)
+You can only white list inbound with security group, black list need network control list
+Because you cannot black list with security group, you can assign more than one group to one EC2
+EC2 instance and EBS has to be in the same availability zone, otherwise the latency won't make it work
+EBS volumes now have to be modified on the fly (size and type), which wasn't possible before
+To migrate EB2 instance to another AZ, creat a snapshot, storage as image (AMI), and re-implement in the other AZ
+To deploy in another region, copy the image to that region, you can encrypt in the copy process
+Snapshot are for volume, exist on S3, snapshots are incremental.
+Best practice is only take snapshot when EC2 is stoped so everything is flushed, but it is possible to take one when EC2 is running
+Snapshot vs image, image is for the whole EC2 including OS and license and directly launchable, snapshop is only for one volume
+Snapshot of encrypted volume is encrypted, restored volume from encrypted snapshot are encrypted
+Encrypted snapshots cannot be shared, because key is controled by AWS account shared snapshot everyone can use
+There's alot of special AMI for sale when launching a EC2, launching from your own image is also an option
+AMI is a great way to store your common steps for a solution, like Cloud formation
+AMI based auto scalling is basically auto-heal
+Instance store cannot be stopped, has a limitation to mount volume so you cannot detach root volume and attache to another instance
+Instance store lose data when it's terminated, since it cannot be stopped. Reboot won't lose data.
+EBS backed instance has the option the keep the root volume, instance store doesn't have this option
+Instance store might be cheap, considering IO cost and volume. But it really is not used a lot.
+LoadBalancer: Application (intelegent, layer7 for routing different requirement), Network (layer7, for performance), classic(ELB,layer 4, legacy)
+LoadBalancer error 504: balancer is still there, but connecting to EC2(gateway) timeout
+When using a classic ELB, User IPv4 address can still be passed in within the X-Forward-For header so you can know who accessed your page
