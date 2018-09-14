@@ -1,0 +1,24 @@
+Informtica powercenter components:
+admin console, repository manager, design tool, integration tool, monitor tool, fairly independent like Putty tools
+Access control model: e.g. leader admin, somebody read only, somebody r/w
+Source can be db, xml, comma seperated flat file. Informatica provides options to pre-process non-table files
+Source -> PowerCenter(everything except console) -> DW -> app
+Each project could have multiple repositories, for each team
+Naming convention: case sensitive, no spaces for repositories; start with "m_" and no spaces for mapping, "wf_" for workflow
+
+Designer:
+Source Analyzer -> target designer -> mapping designer
+Source analyzer only load metadata
+When a mapping is created, all data is converted into Informatica standard
+Join can only take two input table, and input/output port can be specified
+Autolink can link fields based on name or positions
+When mapping is saved, it is validified as well
+Transformation can be stored in a file so it is reusable, mapping can be reused with mapplet designer
+
+workflow:
+Create one so you have a start point, add a session and add your designed mapping
+Mapping is only a model of how data should be mapped, source/output file path is configed in session properties
+
+workflow monitor:
+Whenever a a workflow is executed, workflow monitor is launched. 
+Source Target Statistics are very important to visually see if things are reseanoable

@@ -58,6 +58,7 @@ For frequently changing files TTL should not be too long
 It cost money to remove if file is not automatically de-cached
 Cloud can filter user(e.g. paid user) by only accepting sign url or cookies
 WAF works with CloudFront nicely
+CloudFront has global load balancing facilities
 CloudFront allows Gio-distributions, blcak or white list
 Taking down cached files is called invalidation, and it cost money
 S3 error message are in xml by default
@@ -136,3 +137,41 @@ Instance store might be cheap, considering IO cost and volume. But it really is 
 LoadBalancer: Application (intelegent, layer7 for routing different requirement), Network (layer7, for performance), classic(ELB,layer 4, legacy)
 LoadBalancer error 504: balancer is still there, but connecting to EC2(gateway) timeout
 When using a classic ELB, User IPv4 address can still be passed in within the X-Forward-For header so you can know who accessed your page
+You can create customised dashboard within cloud watch for different use cases
+Available metric includes disk, CPU, network and status, basically what ever charges money
+Custom metric, like monitoring ram, EBS volume, is also possibile, need to write code and run on EC2, sysOp topic
+On Standard monitoring, alarm will work every datapoint(5 mins), if paid you get alarm for 1 mins
+CloudWatch event helps respond to state changes and notify whoevr should concern, use lambda function
+CloudWatch Log can go down to app layer monitoring, need to install an agent not tested
+Metrics can be viewed straightaway, without having to create a dashboard
+CloudWatch vs CloudTrail: CloudWatch is for monitoring, CloudTrail is for auditing
+In AWS CLI, help shows all command options
+All Roles are global, try not to use credentials in CLI
+When trying to access S3 from a EC2, it's fine if they are in the same region, if not, use the region flag
+Remember the URL to check the metadata of a EC2: curl http:169.254.169.254/latest/meta-data/ (curl is a command line tool to fetch a url)
+Auto Scalling: use launch configurations to config standard instance, instances will be deployed evenly in different AZs
+To change configurations of EC2 you have to start over
+Auto scalling group typically recieves traffics from load balancer
+Health check grace period: when to perform health check again after scalling is performed
+Auto scalling happens only in one region, multiple region has to use Route53 to config
+Placement group: multiple EC2 running close to each other for faster interaction, only certain type can be used, aws recommand exactly the same Instance
+Seprate: still close, but different hardware, multi AZ, clustured: one AZ; they all cannot merge, cannot move in instances
+EFS: elastic version of block storag, redundantly stored in multiple AZ
+EFS and EC2s using it has to be in the same security group
+Mounting instruction and command are provided in the console, can be mounted on any location
+EFS can be used to centralised mountable storage managing your application content, just like it's stored in EBS, no need to copy like S3
+But EFS is still a file server, with permission management. It's better than EBS because can be mounted to multiple EC2s
+PaaS: Elastic beanstock
+Container still works on server, just don't have to worry about OS
+Lambda: AWS takes care of everything you need to run your code, even load balancing or scalling configurations
+Lambda can be event-driven(trigger by S3 change for example) or HTTP API server
+Lambda can trigger other lambda. If multiple users triggers then there will be multiple lambdas, even though the code is same
+Lambda runtime includes: Go, C#, Python, Java 8, Node.js, you get 1 million free invocation per month
+Different types of lambda triggers: API gate way, alexa, S3, kenises, DynamoDB, SNS, CloudWatch, CloudFront
+Lambda is charged by request, and execution time, it could be cheaper than servers running full time, function max running time is 5 mins
+Only need developer for projects, alexa use lambda to respond
+Architecture can be complicated, but AWS X-Ray might help
+lambda can do things globally, like backing up from a S3 to another s3
+To deploy a static page to a Route 53 domain, create a record and point to S3
+When creating a resource in AWS, create a role to lock down lo limit what it can do
+
