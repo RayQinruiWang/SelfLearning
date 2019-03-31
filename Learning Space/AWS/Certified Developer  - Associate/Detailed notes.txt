@@ -1,0 +1,2 @@
+Used to be not a lot different from SA-A, now includes a lot of CI/CD
+Read exam guide, and all the whitepaper in it

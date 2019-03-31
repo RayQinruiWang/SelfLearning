@@ -1,0 +1,46 @@
+If the result of a query is too long, Ctrl + End will stopping it from populating
+set pagesize 100 will limit page size too
+Autocomplete feature can be configured in preference/code editior page
+Ctrl + Up and Down for rotating history queuries
+Ctrl + Z works in worksheet
+F8 for queuries history, can use filter to find out specific old queuries
+Queury builder: drag box, click output fields, specify order, filter, etc and it will build sql
+Can add a new "document type group" and view documents side by side. use the split for the same effect too
+In the metadata page, you can generate sql DDL script to carry the data schema anywhere
+There's option to import/export from or to text file(delimited) and excel file
+Reusable script can be stored under function, and can be debugged and compiled prior to excution(use compile for debug)
+Can add breakpoint to debug sql code, like other IDEs
+Can run part of the script by simplly highlighting(selecting)
+
+Magical table "dual" can be used for hello world even you don't have a database.
+Only cap keywords
+do not use '' if literely selecting the columns
+Constrains: (Called attribute too, can be at column or table level, protects from invalid insert)
+    Primary Keys are always not null and unique, so use NOT NULL UNIQUE constrains make sense
+    Foreign key: primary key range of another table, primary key for a child table, not necessarily point to a PK, can be any unique constrained column
+    Foreign key does not have to be unique, and does not have to be not null(possible but will be warned), but they do need matching type
+    Check: give a boolean expression, like a filter
+    Unique: literely
+    Default: technically not a constrain, but works similarly
+Constrains can be packaged into a name. Often it's add all together to the end of table creating script like another column, like 
+    'CONSTRAINT user_pk PRIMARY KEY(user_id)'
+    'CONSTRAINT project_user_fk FOREIGN KEY (creator) REFERENCES users (username)'
+ON DELETE gives the option to imply what to do when deleting something that has dependency: SET NULL(works for none null), CASCADE(when parent is deleted, child is deleted), SET DEFAULT 
+Design a multi to multi relationship: use an intermedia table like users_project or project_users, normally it should be a cascade delete as they are helper tables
+When multiple columns are passed into primary key definition, the combination of the two is used as primary key
+INDEXing the columns that used most frequently: 
+    CREATE (UNIQUE) INDEX project_creator_ix ON projects (creator);
+
+DataTypes:
+CHAR takes 50 bytes by default, VARCHAR2 and NVARCHAR2 are variable with a cap limit, in VARCHAR2(30 CHAR), if not specified, it will be 30 Bytes
+ASCII vs Unicode(UTF-8 and UTF-16), ASCII has 127 -> 255 chars, UTF-8 and UTF-16 are variable in length, in incremental or 1 byte or 2 bytes
+UTF-16 does not always cost more spaces, depends on the encoding, sometimes UTS-8 takes 3 bytes on something UTF-16 only need 2 bytes. It works better with Java and .Net.
+UTF-8 is a superset of ASCII so it's easier to converte ASCII to UTF-8.
+CHAR has a range 1 - 2000 byte, You can specify 2000 Char but you're under a huge risk of running into runtime error. VARCHAR2 allows 4000 bytes, bigger than that we need LOB(Large object)
+Oracle can only assign a data set to database level, not table/column level. However, you can make a column type Nchar so it accepts a different DataTypes
+But try to have a unicode database(UTF-8) if possible, it doesn't necessarily uses more space, only use NCHAR for existing ASCII database for example
+UTF-8 with AL32UTF8 encoding is the most common, you might want to use AL16UTF16(default for NCHAR, which is the fixed length VARCHAR) with UTF-16 when dealing with asian chars
+percision in number is the total number of digits, and the scale is the digits after 
+DATETIME actually passes in as a string, which follows a certain convention, date is '2019-01-01', time(6) is '22:22:22.XXXXXX'(in 24 hour time, up to 6 digits in scale)
+
+

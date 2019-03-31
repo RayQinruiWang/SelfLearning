@@ -1,24 +1,58 @@
 Informtica powercenter components:
-admin console, repository manager, design tool, integration tool, monitor tool, fairly independent like Putty tools
 Access control model: e.g. leader admin, somebody read only, somebody r/w
-Source can be db, xml, comma seperated flat file. Informatica provides options to pre-process non-table files
 Source -> PowerCenter(everything except console) -> DW -> app
 Each project could have multiple repositories, for each team
-Naming convention: case sensitive, no spaces for repositories; start with "m_" and no spaces for mapping, "wf_" for workflow
+Naming convention: case sensitive, no spaces for repositories; start with "m_" and no spaces for mapping, "wf_" for workflow, s_ for "session, "SRC for source, TGT for target
 
 Designer:
 Source Analyzer -> target designer -> mapping designer
-Source analyzer only load metadata
-When a mapping is created, all data is converted into Informatica standard
-Join can only take two input table, and input/output port can be specified
-Autolink can link fields based on name or positions
-When mapping is saved, it is validified as well
-Transformation can be stored in a file so it is reusable, mapping can be reused with mapplet designer
+Source analyzer only load metadata, once finished, it can be used in any mapping int he folder
+When importing a flat file, you can use the option to start from the second line, so the header will be overlooked
+Autolink can link fields based on name or positions, avoid drag and drop, but do not use if unsure
+Transformation can be stored in a file so it is reusable(in transformations folder), mapping can be reused with mapplet designer, but once selected it cannot be de-selected
+One way to test if source and target file definition is correct is to preview data
 
 workflow:
-Create one so you have a start point, add a session and add your designed mapping
+Create a session first with your designed mapping, add a session and add your designed mapping in the edit page, mapping card
+Create one so you have a start point, and add all the sessions necessary
 Mapping is only a model of how data should be mapped, source/output file path is configed in session properties
+To configure source and target connection, configure a general connection(s) first and assign to source and target
+You cannot store the result into different target with only one session
 
 workflow monitor:
-Whenever a a workflow is executed, workflow monitor is launched. 
+In charge of running, scheduling sessions and handeling messagging
+Whenever a workflow is executed, workflow monitor is launched. 
 Source Target Statistics are very important to visually see if things are reseanoable
+
+mapplet: basically bundle several transformation into one reusable chunk
+
+Transformations:
+Active changes number of output, passive doesn't
+Try to do as much as possible in one transmition to avoid multiple read
+Try to use sorted input to reduce complexity
+Try to perform the transmition that eliminate the most entries first to save space & time, better eliminate unecessary data from source qulifier
+    - Filter(FIL): pass records based on a condition, true pass faluse reject
+    - Expression(EXP): apply calculation/other expression and generate new fields
+    - Router(ROU): filter multiple condition(as groups) and route them to different target, but only read data once, multiple filter will read multiple times
+    - Aggregator(AGG): used for calculate something out of all data(sum, average, etc), use "groupby" option(e.g. group by same department), otherwise there will be only one line(calculated based on all data)
+        When using aggregator, information from the last entry of each group will be used as place holder 
+    - Sorter(SOR): sort in acending or decending order based on one field, can be active transformation as if the sorting field doesn't exist, or there's duplicated entry, it will be rejected
+        - Options: case sensitive, distinc(if selected then duplicated will be discarded)
+    - Rank(RAN): new field "rank index" will be created automatically, select the port based on which the rank is generated. Used to extract a certain rank of data
+        - Options: Rank top or bottom, how many ranks are available(if 2 and the first 2 are tied, there will be no rank 2), use group to rank each group
+    - Sequence(SQ): generate sequence value for records, can be used as primary key
+        - Options: cycle (e.g. from 1 to 10)
+    - Source qualifier: 
+        - Can be used to join two sources, so you can begin with only one table. but table for diferent kind of sources don't work
+        - Can be used to filter out some data at the begining
+    - Joiner: use "M" option to decide which source is master, which is detail/extension. When joining multiple source, join two at a time. like reverse normalisation
+        - Master source is alwayse cached to enhance the performance
+        - Master outer rejects the Master entries that not exist in details, detail outer rejects the detail entries not exist in master, full outer keeps everything
+        - as long as the two source share at least one column you can join them
+        - Can use different join type, can specify join condition(consider using a table to explain one field, foreigh key matches primary key of detail table)
+    - Union: Reverse routing, multiple source of similar kind of data routed into one, but need same column name, same data type and same precision
+        - Duplicated record will not be removed, to remove duplicated entries, use a filter/aggregator/sorter transformation
+    - Lookup: 
+        - Can create based on source table, target table or source qualifier. records will be the same as what you choose.
+        - Can specify the rules to judge if any action is needed, basically a existing target table in the workplace, with expression functions
+    - Normaliser: Converting data source into formal forms

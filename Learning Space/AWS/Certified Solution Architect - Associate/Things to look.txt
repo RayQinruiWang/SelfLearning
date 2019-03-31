@@ -1,0 +1,55 @@
+https://aws.amazon.com/blogs/aws/new-whitepaper-use-aws-for-disaster-recovery/
+https://aws.amazon.com/tools/
+https://aws.amazon.com/blogs/aws/new-ec2-spot-instance-termination-notices/
+https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-iam-roles.html
+https://docs.aws.amazon.com/AmazonECS/latest/developerguide/instance_IAM_role.html
+http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/CopyingAMIs.html
+https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-instance-termination.html
+https://docs.aws.amazon.com/vpc/latest/userguide/flow-logs.html
+https://docs.aws.amazon.com/waf/latest/developerguide/getting-started.html#getting-started-wizard-create-web-acl
+https://aws.amazon.com/fargate/faqs/
+https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectPUT.html
+https://docs.aws.amazon.com/AmazonS3/latest/API/RESTCommonRequestHeaders.html
+https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/CopyingAMIs.html
+
+
+Resource group 
+AWS account soft caps
+Cross account access
+AWS config
+Elastic IP
+instance store
+bastion host
+What happens to EBS if instance reboots
+Security white paper/faqs
+Data center
+RDB snapshot and backup, redshift
+Elastic beanstalk/lightSail
+ECS/Docker container/hypervisor
+EC2 placement group
+EFS/AWS glue/Data pipeline/ S3 bucket policy. S3 availbility and durability chart. cross-region replication rules,  S3 Request Headers
+elastic cache
+Logging/Cloudwatch/CloudTrail/AWS config/OpsWorks/Pricing/ AWS managed services/ Spot instance/ Consoliditated billing
+VPC
+cross origin resource sharing
+CloudFront: what happens if direct origin access is disabled and TTL expired
+VPN connections, Virtual private gateway
+CloudFormation catagory
+ELB header/autoscaling Health check grace period(lab)
+EC2/ hypervisor/ 
+Firewalls and securities - security group stateful vs stateless
+networking (netmask??)
+Use cases
+CIDER range???
+federation proxy or identity provider?
+Route table
+Encryption
+Application Load Balancer
+Cloudformations valid sections: 9 of them
+Storage Gateway
+    https://aws.amazon.com/storagegateway/features/
+    https://docs.aws.amazon.com/storagegateway/latest/userguide/resource-gateway-limits.html
+
+
+-----------------------Not tested-------------------------
+Can Aurora fail over to additional replicas? Aurora cluster?

@@ -1,0 +1,692 @@
+General:
+Scale up: add Ram/CPU; Scale out: add more servers
+Never gonna be tested on numbers
+AWS enables architects to test their approaches, because we don't need to guess infrustructure now
+AWS global infrastructure: Region - AZ - Edge Location
+One AZ can contain more than one datacenter, but they are connected with super fast network and latency is neglegiable, Logically they can be deemed as one data center
+Different AZ normally has different power supply and other support that's independant from each other's failure
+Elastic beanstock: features heavily in developer certification, enable  developers to focus on code and automatically envision resources.
+EC2 container service: AWS docker, need to learn more
+Lightsail: Provision a server and takes care of everything, no knowledge need
+Batch: not covered in any exam, used for batch computing(Maybe check if it works in conjunction of SWF, used to automate processes)
+EFS: basically NAS you can mount to virtual machine(Try to figure why don't use a S3 for all the EC2 instances)
+Elasticache: only for database services, general purpose use cloud front
+Migration Hub: monitors all the migration services (db, application, server, etc.)
+CodeStar: Project managing code integrating all the following developer tools
+CodeCommit: private source control
+Code build: compiler
+Code Depoly: automate deployment to EC2, lambda, onsite server,
+Code Pipeline: CI?
+X-Ray: debugging serveless applications
+Cloudwatch: huge topic in sysops
+CloudTrail: keep trail for all activities, highly recommanded to turn on all the time. 
+Config: visialise AWS environment and monitor configuration(resouce level)
+OpsWorks: centralised configuration management, chef? comeback later
+Service Catalog: Manage all the service you have, like all consulting companies have, not tested
+Systems Manager: for EC2 maintenance and management, not tested, important for sysops
+Trusted adviser: human AWS advisers about security, cost, etc
+Managed Services: let AWS manage everything you need, don't need to set up yourselves
+Media services: not tested
+Machine Learning: Look into more when all associated level test are done
+Redshift: DWH or BI, very complex queuries
+Direct connect: premise <-> VPC
+CloudFormation: people actually open source CloudFormation templates, CSV, YAML, XML and JSON are all data formats (rather than languages) but only JSON and YAML can be used to create CloudFormation templates.
+Polly and Rekognition: text -> voice, voice -> text
+Athena: search everything in S3(say something in a CSV file)
+EMR (elastic map reduce): Big dat tool, batch and parallel process larg data set
+Kinesis: injesting large amount of data into AWS. 
+QuickSight: AWS's new BI tool
+Data pipeline: moving data between aws services
+AWS glue: ETL services
+Cognito: Oauth of AWS
+Inspector: testing agent running on EC2, can schedule
+Macie: search S3 bucket for PII(personal id information), say you stored password on public S3
+Certificate manager: free SSH certificate for domained registered through AWS and using route 53
+WAF: application level (level 7) security, can monitor user activities etc.
+Shield: DDoS protection, if attacted then it will not be billed
+artifact: compliance 
+Mobile Hub: AWS backend for mobile app
+Pinpoint: target push notification for mobile app
+AWS appSync: updates apps in real time
+Device farm: testing with real devices, say 50 different android phones
+Mobile Analytics: analytic tool for mobile apps
+Step Functions: workflow control for lambda
+Amazon MQ: rabbit MQ, message que
+SNS, SQS, SWF: application integration services, Amzaon uses SWF for online store
+Amazon connect: cloud call center
+Simple email service: ending large amount of email, professional level topic
+Alexa for business: business assistant like siri
+Chime: video conferenceing tool, works well with low bandwidth
+workdocs, workmail: Amazon's version of office 365
+Greengrass: gateway for all IoT devices
+GameLift: develop game in AWS(VR games) 
+
+IAM(universal): creating users and granting access, gives centralised control
+Granular Permissions: identit Federation with Facebook, Linkedin, etc.
+can do multi factor authentication too
+Provide temporary access for users/devices and services
+Manages password strength and their roatation policy(expiration, reuse, etc.)
+integrates with other AWS services
+User, Group(for users onlys that need identical access), Roles(for resources including users), both group and roles use policies
+When a new user is created, they have no access to anything by default, not even changing password, unless "require change password when login" is ticked
+policies: A JSON document that defines permissions, then attach to user/group/roles. A user can have multiple policies, say one inherited from group and one attached directly for him
+It is recommonded to only login to root when absulutly needed
+Access key ID and secret access key can only be used in CMI or SDK, can be deactived by root, for console access use user name and password
+Access key pair has to be regenerated if losted
+Only one MFA is allowed for root, if MFA is lost you need verification process to get MFA removed
+What happens if policies controdict eachother, denie overwrites allow, and AWS always allows only minimum access
+poweruser has all access except IAM management, admin user has all access including IAM management
+When AWS access as to depend on another set of credentials, create a federation proxy or identity provider and then use AWS security token service to create temporary tokens.
+
+Cloudwatch: use billing alarm to avoid hign bills
+
+S3(global, key-value based):
+File size can be from 0 to 5TB, the is no limit for total storage, consider bucket as a folder except it has a universal namespace
+Read after write consistancy happens amost instantly
+Eventual consistancy can take seconds to sync through availability zone(only for overwrite, not new puts, S3 default setup, not user setup)
+built for 9*4 availability, guarantee 9*3, 9*11 durability
+Lifecycle management/versioning/encryption/bucket policies(can be used to deny a specific user access come back for more)/access control list(ACL) for indevidual files
+S3 standard and IA can survive 2 AZ lost, one zone - IA cannot, if lost its lost, so better use for re-producable file. IA charges retrival fee by GB
+One Zone IA only have a 99.5% availability
+RRS: if comes up it is used for things that can be easily re-created. It sucrifices durability to 99.99%. It's the most expensive and nobody use it now.
+Pricing: Storage, request, storage management, cross region transfer(replication), and trasfer acceleration(cloudfront + backbone) cost money
+Glacier: expdidited 3-5 mins, standard 3-5 hours, bulk 24 hours, IA and standard are millionseconds. IA doesn't mean slow, just more expensive if access to frequently
+Bucket name must be unique because it's associated with a DNS address
+You can give other AWS account S3 access, commonly used within organizations
+Remember if successful you'll get a HTTP 200
+Client(encrypt then upload) or Server side encryption may be used, down to object level
+By default the bucket and all objects are private
+S3 objects do not inherit bucket tags
+S3 versioning keeps every single version of the tracked file, it can be expensive
+S3 versioning can only be suspended not disabled onced enabled
+S3 versioning work in the form of overwriting same name objects
+S3 can config MFA delete
+S3 will put a delete marker if a file is deleted, and when delete marker is also deleted, the file will be restored
+S3 versioning integrates with lifecycle rules
+S3 cross-region replication cannot be applied in the same region
+replication can be in another account, say there's a backup account for the entire organization
+S3 cross-region replication can be sub-folders or entire bucket
+S3 cross-region replication requires versioning enabled on both buckets
+s3 cross-region replication can be grecier storage if it's just a backup, or it can be any S3 storage class, commonly S3-IA
+upon the creation of a replication bucket, existing files won't be copied, only new one will be replicated automatically. So existing files has to be copied through with CLI
+Easiest way to copy the existing files to replication bucket is to use CLI
+When object is deleted, replica bucket don't delete it to protect from malicious deletions
+The deletion of delete marker won't be synced so that it will remain deleded in the replica(delete marker don't sync anyways)
+Same thing if a newer version is deleted, it won't be deleted in replica so the replica still have the latest version. To make things consistant you need to clean it manually
+When a public file get's updated, it stops being public bu default
+Lifecycle management doesn't require versioning, but can manage current and previous versions seperatly
+S3 Lifecycle management can be used when say data is only relavant for a certain period of time
+You can setup different tiers of storage for each stage of lifecycle, S3 -> S3 IA -> Glacier -> delete(expired)
+lifecycle rules can be set differently for current and previous versions
+When an object is transitioned into glacier, it remains a reference in S3 to trigger restoration
+However, if an object is directly stored into glacier, you have to download and re upload
+CDN is not quicker for the first user, and edge location only cache data for a certain period of time(TTL, time to live)
+TTL is set bu the object being cached
+CloudFront work with non-amazon services too, just set your source as "origin"
+A distribution is the name of a collection of edge locations(like a distributor), and it is the first thing you creat in cloudfront
+There's two different typs of distribution, RTMP(real time messaging protocol, for adobe flash) and web distribution
+Origin can be on premise, doesn't have to be hosted on AWS
+Once cloudfront is setup, you can block direct origin access, and use distribution only
+For frequently changing files TTL should not be too long (say content changes every 4 hours and TTL is 24hrs)
+It cost money to remove if file is not automatically de-cached
+Cloud can filter user by only accepting sign url or signed cookies. (Use case: secure cloudfront by only allow paid customer to access)However, if geo-restriction is activited, even signed url won't work
+WAF works with CloudFront nicely
+CloudFront has global load balancing facilities, and works with all kinds of content
+CloudFront allows Gio-distributions, blcak or white list.
+Even when origin is disabled, cloudfront can still serve cached content 
+Taking down cached files is called invalidation, and it cost money(use case: maybe you updated content and don't want anyone to access the old version)
+S3 error message are in xml by default
+Even cross account logging and access is possible
+Encryption: In transition use SSH/TSL using https.
+Server side encryption: SSE-S3, SSE-KMS(key management service), SSE-C(customer)
+SSE plus Client side encryption are the four encryption types
+Storage gateway: have to download onto VM in your datacenter, consists of a a local storage/cache and a buffer that handles multi-part upload. works as an attached file system for S3
+Types: File(NFS), Volume(Stored/Cached, iSCSI), Tape(backupVTL)
+File gateway backups local data center to S3
+EBS are not encrypted by default, but can be encrypted
+Stored volume backups EBS snapshots to S3, a complete copy is kept locally, maximum 16 TB
+Cached volume only keeps recent state locally and rest in S3 as EBS snapshot, Maximum 32TB
+Tape backups physical tapes to virtual tapes
+Snowball: Once Import/Export, reinvented for better management
+Bypassing internet for large data set, snowball/snowball edge/snowball mobile
+Snowball can inport to or export from S3, Glacier has to be restored into S3 first to use snowball
+Standard Snowball: 50/80 TB size, 256bit encryption, erased after data recieved and verified
+Snowedge: 100TB, has compute capacity(use like a black box on plane)
+snowmobile: 100PB transition in truck for data center migration
+Snowball needs a local software client(CLI) to access, and credentials can be obtained from the console
+You need manifest file and private key to access snowball
+Connect through ethernet and It works as the S3 buckets, except the physical device is local
+S3 transfer acceleration: Users using edge locations to upload files to Bucket
+S3 transfer acceleration ULR : bucketname.S3-accelerat.amazonaws.com
+You can compare performance before and after in different regions with showcase link, the further the faster
+When hosting a static website on S3, you don't have to handle loadbalancing or other infrustructures, it scales 
+Domain name has to be the same as bucket name if the website is going public
+All linked files has to be public, traffic cost is neglegiable
+Standard URL: bucketname.s3-web-reigion.amazonaws.com
+Amazon monitors total storage usage and add infrustructure whenever it reaches certain threasholds
+Multipart upload is faster, and can elevate 5GB limit to 5TB
+One account can have 100 buckets at most
+S3 RRS are often used to store thumbnais, transcoded video, sucrafices duarbility
+Read FAQ before test
+
+EC2:
+Runs on hypervisor, which run on host hardware. ec2 class/type naming: i3.xlarge, i means class, 3 means generation, xlarge means size, generally follows 2X rule
+Images are maintained by both AWS and community
+M5: multipurpse, general purpose, skylake CPU
+T2: General Purpose Burstable instances, cheapest, can be bursted a bit but for limited time. T2 unlimited can be bursted indefinitly
+R4: memory optimised, 8:1 memory ratio
+X1/x1e: 2T memory, super memory optimised, 16:1/32:1 memory to cpu ratio
+I3: I/O intensive, 3.3 milliom IOPS, cheapest per IOPS
+EC2 Bare Metal: All support (disc management, networking, etc) are offloaded, so no hypervisor needed, can be used as dedicated host
+D2: lowest cost per unit storage, using megnatic storage, for DWH, log processing, etc. High throughput application
+H1: more CPU, less storage D2, for big data, mapreduce, application nee prcessing a lot but don't store. cheaper than D2
+C5: compute intensive, custom skylake, 2:1 memory CPU ratio, gaming, scientific, viedo encoding etc. netflix uses it
+G3: graph intensive, parallel computing, huge number of cores, can do ML, AI, scientific research(weather, air dynamics)
+New elastic GPU: attachable GPU pay as you go, OpenGL compliant
+P3: Powerhouse, GPU based VM, Nvidia Tesla chip, for HPC(high performance computation)
+F1: FPGA(Field programmable gate array), ability to program the hardware, thus"circurt gate array that's programmable on field", bake algorithm onto hardware. images available in marketplace
+    FPGA functions are highly independent(helps parallel processing), highest performance compare to a micro controller, Hi frequency trading use them too. VHDL and VERILOG language
+    Custom data width(not just 32/64 bit), operation are all possible(3bit computer)
+
+
+
+Reserved instance: convertable instances is possibile as long as you spend more
+Reserved instance can be scheduled too
+Dedicated host: to deal with stupid regulation that agains multi-tenent virtulisation
+Dedicated host can be on-demand or reserved. Once set up both VPC and its instances cannot be changed back to default hosting
+Letters for instance types never change, but generation might change
+EBS used to boot OS is the root drive, root volume cannot be encrypted unless use third party tool, or truned into snapshot first
+General purpose SSD(GP2) can do up to 10000 IOS, but more likely 3000, Provisioned SSD (IO1) can go up to 20000 IOPS
+Throughput optimised HDD (ST1, large data, log), Cold HDD(SC1, file server)
+Subnet means availability zone, one on one match
+detailed monitoring is available at an additional cost
+bootup script can be plain text or file
+By default, the EBS attached to EC2 are deleted on termination
+with AWS, idealy you tag everything and as much as possible
+SSH IP can be restrict down to my IP address from the terminal, but you may lose access after several hours when ISP changed your IP
+for SSH logging on from mac/linux, use SSH ec2-user@publicip -i keypair.pem
+To terminate a instance with protection, go to settings disable the protection first
+System check: infrustructure is alright
+Instance check: if instance OS works
+
+username can be stored in Putty from the beginning
+Security group is layer 4 virtual firewall, any new rules will be applied immediatly
+By default all inbound is blocked, all outbound is allowed
+Any inbound rule automatically introduces outbound rule (being StateFul)
+You can only white list inbound with security group, black list need network control list
+Because you cannot black list with security group, you can assign more than one group to one EC2
+EC2 instance and EBS has to be in the same availability zone, otherwise the latency won't make it work
+EBS volumes now have to be modified on the fly (size and type), which wasn't possible before
+To migrate EB2 instance to another AZ, creat a snapshot, storage as image (AMI), and re-implement in the other AZ
+To deploy in another region, copy the image to that region, you can encrypt in the copy process
+Snapshot are for volume, exist on S3, snapshots are incremental.
+Best practice is only take snapshot when EC2 is stoped so everything is flushed, but it is possible to take one when EC2 is running
+However if taking a snapshot of a RAID array, you have to: freeze file system, unmount RAID and shut down EC2 then take snapshot
+Snapshot vs image, image is for the whole EC2 including OS and license and directly launchable, snapshop is only for one volume
+Snapshot of encrypted volume is encrypted, restored volume from encrypted snapshot are encrypted
+Encrypted snapshots cannot be shared, because key is controled by AWS account shared snapshot everyone can use
+There's alot of special AMI for sale when launching a EC2, launching from your own image is also an option
+AMI is a great way to store your common steps for a solution, like Cloud formation
+AMI based auto scalling is basically auto-heal
+Instance store cannot be stopped, has a limitation to mount volume so you cannot detach root volume and attache to another instance
+Instance store lose data when it's terminated, since it cannot be stopped. Reboot won't lose data.
+EBS backed instance has the option the keep the root volume, instance store doesn't have this option
+Instance store might be cheap, considering IO cost and volume. But it really is not used a lot.
+LoadBalancer: Application (intelegent, layer7 for routing different requirement), Network (layer7, for performance), classic(ELB,layer 4, legacy), can cross AZ
+LoadBalancer error 504: balancer is still there, but connecting to EC2(gateway) timeout
+When using a classic ELB, User IPv4 address can still be passed in within the X-Forward-For header so you can know who accessed your page
+ELB can launch instances from instance temlate
+You can create customised dashboard within cloud watch for different use cases
+Available metric includes disk, CPU, network and status, basically what ever charges money
+Custom metric, like monitoring ram, EBS volume, is also possibile, need to write code and run on EC2, sysOp topic
+On Standard monitoring, alarm will work every datapoint(5 mins), if paid you get alarm for 1 mins
+CloudWatch event helps respond to state changes and notify whoevr should concern, use lambda function
+CloudWatch Log can go down to app layer monitoring, need to install an agent not tested
+Metrics can be viewed straightaway, without having to create a dashboard
+CloudWatch vs CloudTrail: CloudWatch is for monitoring, CloudTrail is for auditing
+In AWS CLI, help shows all command options
+All Roles are global, try not to use credentials in CLI
+When trying to access S3 from a EC2, it's fine if they are in the same region, if not, use the region flag
+Remember the URL to check the metadata of a EC2: curl http:169.254.169.254/latest/meta-data/ (curl is a command line tool to fetch a url)
+Auto Scalling: use launch configurations to config standard instance, instances will be deployed evenly in different AZs
+To change configurations of EC2 you have to start over
+Auto scalling group typically recieves traffics from load balancer
+Health check grace period: when to perform health check again after scalling is performed
+Auto scalling happens only in one region, multiple region has to use Route53 to config
+Placement group: multiple EC2 running close to each other for faster interaction, only certain type can be used, aws recommand exactly the same Instance
+Seprate: still close, but different hardware, multi AZ, clustured: one AZ; they all cannot merge, cannot move in instances
+EFS: elastic version of block storag, redundantly stored in multiple AZ
+EFS and EC2s using it has to be in the same security group
+Mounting instruction and command are provided in the console, can be mounted on any location
+EFS can be used to centralised mountable storage managing your application content, just like it's stored in EBS, no need to copy like S3
+But EFS is still a file server, with permission management. It's better than EBS because can be mounted to multiple EC2s
+PaaS: Elastic beanstock
+Container still works on server, just don't have to worry about OS
+Lambda: AWS takes care of everything you need to run your code, even load balancing or scalling configurations
+Lambda can be event-driven(trigger by S3 change for example) or HTTP API server
+Lambda can trigger other lambda. If multiple users triggers then there will be multiple lambdas, even though the code is same
+Lambda runtime includes: Go, C#, Python, Java 8, Node.js, you get 1 million free invocation per month
+Different types of lambda triggers: API gate way, alexa, S3, kenises, DynamoDB, SNS, CloudWatch, CloudFront
+Lambda is charged by request, and execution time, it could be cheaper than servers running full time, function max running time is 5 mins
+Only need developer for projects, alexa use lambda to respond
+Architecture can be complicated, but AWS X-Ray might help
+lambda can do things globally, like backing up from a S3 to another s3
+To deploy a static page to a Route 53 domain, create a record and point to S3
+When creating a resource in AWS, create a role to lock down lo limit what it can do
+Spot: as soon as spot price goes over you bid it will be terminated, you won't be charged if it's terminated by AWS
+
+Route 53:
+Important!!: understand different routing types/policies
+Top level domain were used to verify email, so newly registered first level domain may be rejected
+.com can be top or second or any level domain, consider .com and .com.au
+domain registar enforces uniqueness onder one first level domain, and store it in a "who is" database. godaddy.com is another popular one other than amazon route 53
+It's called route 53 because DNS operates on port 53
+Start of authority: SOA record stores information about how long the routing setting remains valid(TTL), the shorter the faster you can make changes
+When a address is requested -> ISP or cache -> first level domain db -> registar -> SOA -> A record or alternatives
+LoadBalancer don't have IPv4 addresses, always use a DNS service to point to it
+"A record" points directly to IP address, C name points to other domain names(e.g. to redirect to www.XXX.com to mobile.XXX.com)
+You cannot use an A reocrd for a ELB
+A Cname cannot be used for naked domains
+alians name can point to AWS resources like ELB, given a choice, always choose an alias name over a C name. That way when ELB address changes, route 53 will re-route straightaway, and it supports naked name
+Using alians name is a stable and recommanded practice to point to AWS resources
+ELB has a internal ip address just never exposed to you, so it is a must to use a alias record to resolve domain name to dns name
+Route 53 is a Global service, make sense
+A Route53 domain has the same domain name registered under multiple top level domain names to prevent outage
+Routing policies:
+Have to choose one policy for a record, cannot mix and match say latency and weighted
+Simple routing policy: default, point a domain name to a server, it is one record with multiple IP. Alias record available
+Weighted routing policy: route to different server based on weight assigned, multiple record with the same domain name in route53, weight will be added up and pro-rata to %
+Weighted routing record will be cached locally so refreshing within the TTL will nor result in routing to different server
+Latency based routing: route traffic to provide the lowest latency, Route select the closest region; set up multiple record with the same url and point to ec2 in different regions
+Failover over: health check based(under route 53), can monitor both IP or domain name(for ELB that doesn't have public ip), only allow a active and a passive, cannot mannage multiple node
+once the active site goes down, route53 reroute to passive site
+Geolocation: Specify what resource respons to which geolocation, say a shop shows euros in europe shop and dollars in us shop
+Multi-value answer: attach a healthcheck on each EC2 node, when all healthy it's like simple routing, when not dead node will not be used. similar to ELB but not exactly the same.
+By design, Doute 53 doesn't allow DNS information accessed by external resources
+
+database:
+Relational vs noSQL: For relational, you have to understand the data in advance, otherwise it is hard to change after, or you have to insert null value
+Auror is AWS's RDB, better performance than MySQL and better disaster recovery
+DynamoDB: stores everything as JSON, features heavily in developer's certification test
+the combained key and name length must be smaller than 400k
+Online Transaction Processing(OLTP) vs Online Analytics Processing(OLAP): OLTP is more like processing a online shopping transaction, OLAP deals more complicated query(RedShift, amazon's dbwh)
+RDB is mostly used for OLTP
+Data warehousing db is normally a copy of production db, so that production db will not be over pressured
+ElastiCache: in-memory caching, Support two open-source engines, Memcached for objects and Redis for key-value pairs. Memcached has no multi AZ, Redis has multi AZ
+It is basically a couldfront for cache the most common queries(e.g. top sellers), thus allows better performance for web-apps
+RDB instance doesn't have a public ip address either like ELB, only a DNS name, AWS manages the mapping for the dns to the internal ip address
+If EC2 cannot connect to a db instance, most likely it is due to port 3306 not being accessable to the security group that EC2 is in, you should open port 3306 to EC2's security group
+Automated backup: enabled by default, stored in S3, size equal to your db, daily snapshot + transaction log, in case of recover(manually triggered), aws apply transaction to the latest snapshot
+Snapshots: manually, user initiated, stored after RDS instance is terminated(automated backup will be deleted), normally comes with several seconds of down time.
+whenever a RDS snapshot is restored, it will be a new instance with a new endpoint(DNS address)
+Once a db is encrypted, all data, snapshots, read replicas, and automated backups are encrypted. Encrypting a existing RDB instance is not possible, you can only create a snapshot and encrypt during the copy process.
+Multi AZ - any changes made on a RDB in one AZ will be duplicated in another RDB in another AZ, for redundancy(mostly disaster), in the case of loosing active db, it will fail over to the duplicated in another AZ
+In the case of multi AZ, when failing over to secondary RDB, the endpoint(DNS) does not change, AWS handles the mapping. It is used for database maintenance too and no admin intervention required.
+Read replica: redundancy for performance boost. Default for Auror, available for other RDB but need to be turned on. You can have up to 5 read replica. They can be in different AZ or region
+Read replica is not available for SQL Server or Oracle, only AWS and open source RDBs, must have automatic backup turned on in order to deplor read replica, each replica has different endpoint
+Read replicas can be used in conjunction with multi AZ, a read replica can be promoted into a standalone database for other things
+Upon the creation of read replica, you can specify region, AZ and wether to encrypt the database 
+Multi AZ can be set up when needed, e.g. before deployment, as it is just a standby instance, does not relevant to dev or testing
+DynamoDB, single digit latency, always on SSD, 3 geographically distinct data centre(not AZ, but still different facility)
+Consistancy model: if need read within one second write, use evnetual consistent read, if need less than one second, use strong consistent read
+DynamoDB is charged based on read capacity unit and write capacity unit, one read capacity unit can handle 1 strong consistant read per second or 2 eventual consistant read per second, up to 4kB
+One write capacity unit can handle 1 write per second up to 1KB. So it can be expensive for write, but cheap for read. 
+For read/write capacity unit, you can pay-as-you-go or reserve for 1 year to 3 years. You can monitor in the metrics to compare between provisioned and consumed to change on the fly.
+Scalling DynamoDB does not have down time(called push button scalling), but scalling RDB might have
+Redshift can have a single node of 160GB, or multi node configuration with a lead node handling client communication, and up to 128 compute node
+Columnar data store - Redshift actually store colum data sequentially on the media, which makes collum query more IO efficient
+Columnar data store make compression more efficient, since they're all same type of data. You don't have to worry about what scheme to use, AWS select the best for you.
+Redshift uses Massively Parallel Processing(MPP) to boost fast perfomance, achieved by multi-node configuration
+RedShift is charged by hour(only compute node, unit is "one instance hour"), and backups, and transfer within a VPC
+Redshift is currently only available in 1 AZ, but can restore snapshots to another AZ for potential recovery needs
+Elasticache is designed to reduce latency and improve performance, cached information may include read intensive database result or computation-intensive calculation result
+Elasticache vs read replica:cache if a small amount of resource is accessed frequently, read replica is full capacity of RDB is frequently required
+Aurora: bespoke SQL engine for AWS, only works with AWS, cannot run locally, 5X faster than My SQL, 1/10 cost of commercial db
+Aurora scalling has down time, but only takes several minutes storage scales in 10 GB incrementals, computer scalses up to 32 cCPUs and 244GB of memory
+Aurora maintains 2 copies in each AZ and in at lease 3 AZ, so 6 copies minmum; 15 additional Aurora replica and 5 Additional MySQL read replica is possible, but cannot be failed over to.
+Aurora is self-healing, by constantly scanning for error and fix it; Not supported by all regions at the moment
+When Aurora is provisioned, you can assign priority to each instance, it's like rank in army, when a higher tier instance is down, it will fall over to the highest tier instance working
+When the first Aurora is provisioned, it creates a whole cluster and the cluster name is used to generate the endpoint of the entire db
+Aurora automatic copys are only for recovery and performance(physical media only), the virtual machine running the instance is still a single point of failure, unless using "create a Azrora replica" option
+Aurora replicas can only be used for read but not write, write has to go through the primary instance. In the case of failover, endpoint dns will remain the same and the new instance will be able to write
+Always use Aurora cluster endpoint, instead of instance endpoint, unless specific cases
+Aurora instance has seperate endpoint too, but normally not used, only the cluster endpoint is used
+In case of deleting a cluster, replicas hase to be deleted first before primary instance and the whole cluster can be deleted
+Aurora is designed to transparently handle to loss of 2 copies without affecting the write availability and loos of 3 copies without affecting the read availability
+Ways to lower latency: add read replicas, use direct connect, put database closer to you customer or use cloudfront/ElastiCache
+Kenises: fully managed service for bring in streaming data at massive scale to the cloud(IoT,social media, etc), and then become available for processing within a second(for redshift/EMR)
+
+
+VPC: 
+Isolated cloud resources, Can run on dedicated hardware
+Should be able to build one from memory, just think about it as a virtual data center in the cloud(Logical region/datacenter)
+1 subnet = 1 AZ(1 subnet completely sits in one AZ, but one AZ can have more than one subnet)
+Best practice: one Public and one private subnet per AZ, and replicate in multiple AZ for failover. Worst: public in one AZ and private in a different AZ, then any AZ fail the system fail.
+When AWS account is setup, AWS create a VPC for each region(then you create additional logical VPC, and you have complete control within the VPC)
+USE case: public facing subnet with internet access and private facing subnet without internet access
+VPC can be used as an extension of a exsiting physical datacenter
+Two ways to access a VPC: via internet gateway or via Virtual Private gateway and VPN, then go through router and route tables to subnets, filtered by ACL(Ip address blocks)
+Private subnet must be accessed via jumpbox or VPN, internal address options: 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16
+When internal address is not enough, you have to creat another VPC so you can have another set of internal addresses
+By default you can have 5 VPC in a region, you can have more than 5 by emailing AWS
+CIDR.xyz to calculate, whatever number after slash is the bits that's untouchable, and for those addresses available, you always loose the first four and last one
+You may want to name your subnet with CIDR address range and AZ just to keep track
+The following can be done for VPC:
+    - Launch instances into a Subnet
+    - Assign custom IP address range for each Subnet
+    - Configure route tables between subnets, sort of like level 4 security, much better control over resources using subnet ACL
+    - Create internet gateway and attach to VPC so it is accessable from public, but you can only create one, and it is normally not a performance bottleneck or single point of failure concern
+When we setup AWS account we have a default VPC, all subnets are internet accessiable by default for convinence and user friendliness. No private VPC available, and all resource(say EC2) will be public be default
+Public VPC has both private and public IP addresses, private VPC only have private IP address
+VPC peering: connect VPC together via direct network route, and they behave as they are on the same private Network, this can be done with VPCs from other AWS account, can cross region
+VPC peering: always have a center VPC, no transitive peering
+Security Group does not specify inbound or outbound, access control list has inbound and outbound managed seperatly(stateful vs stateless)
+When a VPC is created, it creates ACL(allow everything), security group(VPC specific), and a route table(which talks to all subnets and enable all subnets to talk to each other), but not subnet or internet gateway
+Upon creation, next step is to provision subnet, then internet gateway, and another route table for public access. you don't want your default route table be public.
+When route table is created, associate it with your public VPC and allow auto-assign public address to allow public access(Or can be done when provison EC2, at a resource level)
+AZ name means different AZ for different users, so people will use them evenly, for each cider adress specified, the first four and the last one are not available, they are reserved for:
+    - .0 Network address
+    - .1 Reserved by AWS VPC router
+    - .2 .3 reserved for future use
+    - .255 broadcast address, not supported so reserved
+Without creating a Internet Gateway and attaching it to a VPC, the VPC will remain private and not accessible. You cannot attach multiple internet gateway to one VPC
+Attache a security group to private subnet to only allow access from public subnet's CIDR address. However, this only allows data inbound, if you run yum update it will fail as it doesn't have internet access
+AZ names are randomly allocated to every AWS account, to balance usage
+When you have your own VPC, it's like you have your own region and AZ when provisioning EC2
+NAT instance is on the way out, NAT gateway is replacing it.
+NAT instance is a specially configured EC2, has to disable source/target check as it will be neither source nor target of any traffic. Normally it has to be at least a source or target to make traffic go through
+Add a route direct all the traffic to public to the NAT instance, inbound will be handled by public subnet and outbound will be handled by NAT instance
+In this configuration, the NAT will be a single point of failure, and it's network throughput, computation power are all bottlenecks
+NAT gateway will only handle ipv4, egrass only internet gateways will handle ipv6 but not required
+Similarly, make to route table pointing to the NAT gateway, AWS manages patch, auto scalling, bo need to associate with a security group
+Only advantage of NAT instance is that NAT instances can be used as bastion servers(jumpbox, used to SSH private instance), although this introduces more risk
+ACL: can only be applied in one VPC, cannot span VPCs. By default it denies everything(only the one created with VPC allows everything). rule shoule be created in increamental of 100
+ACL sits before security group so if traffic is blocked by ACL, it won't reach security group
+One VPC must have a ACL, if not specified, it will use the Default
+ACL can be shared across subnets, but each subnet can only have one ACL. when a new ACL is associated, the old one is automatically replaced
+Security groups cannot block ip address, only ACL can do that.
+
+Stateful/stateless check later
+ACL: Rules are suggestion to be named with numbers in the incremental of 100 (this way you have a lot of room to change mind), since rules are evaluated in incremental order. 
+Custome ACLs denies everything, unless you open it
+Subnet in VPC must be associated with a ACL, one ACL can be applied to multiple subnet, but one subnet can only have one ACL. When new one is applied, old one is removed.
+Flowlog: monitor information flow for VPC, log can be exported as file to S3, or lambda for dynamic respons
+Flowlog does not log the VPC that's peered with your VPC, unless it's under the same account. Some other exceptions won't be monitored as well
+Two ways to access instances in a private subnet: Use a NAT to provide public inbound access, or use a Bastion(jump box) to jump into an environment then SSH it
+You can use VPC endpoint to access AWS resources within the same region, through private IP adress, without having to access public internet
+To clean up a VPC, delete all resources under it first(there's dependencies, order EC2 -> endpoint/gateways -> VPC), then delete the VPC
+AWS private link, connect AWS partners' service to your VPC via AWS network, instead of public internet
+
+Application services:
+SQS (Simple queue service), first every AWS service, worth reading FAQs
+distributed queue system, temporary repository for messages that awaiting processing, great way to decoupling components
+Can be set to autoscal, can be comsumed by server, lambda, EC2 etc. it's pull based so it doesn't push. it supports 256KB data of any format, including JSON, lifecycle 1 min to 14 days, default 4 days
+Support standard or FIFO, highly reliably and available, order is most likely maintained but not guaranteed in standard, FIFO has guaranteed ordering, limited 300 transaction per seconds
+When pulled, message will become invisiable until computation is done, but will only be deleted when processing is over, so in case of failure, it can be pulled again
+visiability time out has max limit of 12 hours, and default is 30 secondes. when processing is longer than timeout, it could be processed by another server because the first time did not return confirmation
+short pulling: pull all the time and respond instantly if there's nothing. Long pulling pulls periodically and only return when there is something or time out. Long pulling can save cost
+You can add your own mechanisim to handle duplication(or any other application level tracking)
+DelaySeconds: when a message arrives, make it invisiable for a few seconds
+
+SWF (Simple workflow service)
+Compare to SQS, SWF manages workflows that could be code, script or human actions, SQS message oriented
+3 actors: starter, decider, worker
+SWF ensurances decider can monitor the workflow and assigns tasks to workers according to decider's decision. tasks are assigned once and only once(Main difference from SQS)
+Maximum workflow period can be 1 years measured in seconds
+
+SNS (Simple notification service), includes SES(simple email service)
+publish-subscribe paradigm, notifications are pushed to subscriers, if needed pool(pull)notifications use SQS
+Can deliver to IOS, google, fire OS, using baidu message service in China. Can also send sms or email to SQS or any http(s) endpoint
+Subscribers subscribes to "topics", one topic can support deliveries to multiple endpoint types. e.g. group IOS, android and regular users and regular users and send them different messages
+Pay as you go, prices vary according to delivering method web based point-and-click interface
+data format is JSON
+
+Elastic transcoder: convert media file format. Provide presets for popular formats so don't need to guess, pay based on the minutes and resolution. 
+Usecase: source video -> lambda -> transcoder -> S3 for web consumption
+
+API gateway: Routing API calls to services (lambda or EC2 server). 
+Can use API caching to speed up API respons speed by caching response for a TTL instead of letting it run everytime, scales automatically, however you want to throttle to prevent over flushing
+Can connect to cloud watch to log all request
+When resurces are not accessable because of same origin policy, active cross origin resource shareing (CORS)
+
+Kinesis: data streaming service(in analytics session), you send your continuous data transfer in small sizes(KBs) to kinesis 
+Kinesis streams: producers send data to kineses for 24 hrs - 7days, data stored shards, then consumers consumes data from shards, and send results to other AWS services.
+Maximum 5 transaction per second, 2M max for read and 1000 transaction per second, 1M max for write
+Kinesis firehose: send stream to firehose, and shoot to S3 then waiting to be picked up by lambda or some other pulling mechanisim, doesn't have shards, don't concern consumers
+Kinesis Analytics: Allow SQL data in kinesis, and send processed data out
+
+Real World examples: come back later
+
+White papers:
+Zero up-front, just-in-time, efficient utilization, pay as you go, reduce time to market(especially when multi-internationalising)
+infrustructure as code, auto/proactive scalling 
+
+Best practices: understand fully for case studies
+General design principles:  
+    - Stop guessing capacity need, be ready to cater capacity change with design
+    - Test at production scales, it's cheap and on-demand anyways
+    - Automate to make experimentation easier(e.g. Use script to repeat process, automate testing, etc)
+    - Allow for evolutionary architecture(consider architecture change with design, and automated testing makes architecture change less risky)
+    - data-driven architecture fact based decisions(even through automation), so it evolves automatically
+    - Improve through game days: simulate production event and improve on the fly
+
+    - Security pillar(First concern of everyone move to the cloud, DD's specialty)
+        - Design principles
+            - Apply security at all layers and components
+            - Enable traceability
+            - Automate response to security events(from messaging someone, to automatic respondses)
+            - Focus on your share of responsibility
+            - Automate security best parctices(create hardened OS)
+            - Focuse on your system based on responsibility model(AWS actually removed some of your responsibility, like guarding the server, patching OS and software. Whatever "of" the cloud, not in)
+            - Automate best practices, use hardened images(removed unecessary program, ports, access, account, service, etc) so it is deployed with protection everytime
+        - Definition
+            - Data protection: 
+                - classify it into audience groups, and implement previlage access system, and encrypt where possible, both at rest and in transit
+                - AWS support this by IAM allowing easy encryption and key rotation, detailed logging(Cloudtrail), allow versioning
+                - How are you Encrypting data at rest? (denie unauthorised access, encrypted with ELB, EBS, S3 and RDS)
+                - How are you Encrypting data in transit? (SSH, HTTPS)
+            - Previlege management: 
+                - ACLs, Role based access control, password rules(strength, rotation, etc.)
+                - How are you protection your root credentials? (MFA? HSM?)
+                - How are roles defined for users and system resources? 
+                - How are you limiting automated access? (from applications/scripts)
+                - How are you managing keys and credentials? 
+            - infrustructure protection: AWS handles most of the things, here it means VPC low level security concerns
+                - How are you enforcing network and host level boundary protection(Security group only? ACL also? EC2 in public or private subnet? Jumpbox?)
+                - How are you enforcing AWS service level protection(Users/group with minimun access)
+                - How are you protecting the integrity of you EC2(say you're running windows, do you have anti virus?)
+            - detective control
+                - CloudTrail, CloudWatch, AWS Config, S3, Glacier
+                - How are you logging AWS logs(CloudTrail in each region? Log management from third party?       
+        - Best practices:
+        - Key AWS Services: See above
+        - Extra resources: AWS security whitepaper
+    - Relibility pillar
+        - Design principles
+            - Test recovery procedures(not just test it works, also test it recovers from failure, netflix tools are available for that) 
+            - Automatic recover for failure(monitor KPI, even anticipate and prevent risk)
+            - Scale horizontally not virtically(scalling out, replace huge resource with smaller resource so they don't share common point of failure)
+            - Stop guessing capacity(avoid over/under provision, build it in design)
+        - Definition
+            - Foundation
+                - Like the foundation of house, AWS handles most of this for you, it's designed to be limitless, with a service limit for each resource to prevent you over provision, unless you raise tickets
+                - How are you managing AWS service limits? (Is there anyone in charge??)
+                - How are you planning your network topology? (Is there a single point of failure?)
+                - How do you deal technical issues? (Do you have an account manager? AWS specialist?)
+            - Change management
+                - Change management are automated and trackable, with cloud-formation.
+                - How does it adapt to changes in demand? 
+                - how are you monitoring?(CloudWatch?) 
+                - how are you executing change management?(Process?)
+            - Failure management
+                - Always assume failure will occur, and always consider why they occur and how to prevent them
+                - How are you backing up data? (S3 multi AZ?)
+                - How does you system withstand component failure?(redundancy, remove single point of failure)
+                - How are you planning for recovery? (ELB, Failover)
+        - Best practices
+        - Key AWS Services
+            - IAM, VPC, CloudTrail for change management, CloudFormation for recovery
+        - Extra resources
+- Performace efficiency pillar
+        - Design principles
+            - Always checking if you're using the best service available
+            - Democratiza technology: Make tech accessable for non-it specialist, package it into a push-button service. This is what AWS does and AWS architech should aim for this too
+            - consider ability to go global, when serving customers far away, you should consider launch the service in another location
+            - Use severless architecture(Only cost money when someone uses it)
+        - Definition
+            - Compute(Use the right instance, switch instance size and type quickly, however stopping instance is still required)
+                - How do you choose the most appropriate instance types? And continue to ensure that you have the most appropriate instance type as AWS introduces more an more?
+                - How do you monitor the instances post launch to ensure perfomance?
+                - How do you ensure that the quantity of your instance mathces demand?
+            - Storage(consider: Content type block or file, pattern of access random or sequential, throughput, update/Access frequency, availability/durability requirement)
+                - How do you select the corret storage service for your system? And continue to ensure that you have the most appropriate solution as AWS introduces more?
+                - How do you monitor yout storage solution to ensure perfomance?
+                - How do you ensure that the capacity and throughput of your storage solution mathces demand?
+            - Database(Consider what feature do you need: availability? No-SQL?)
+                - How do you select the corret DB for your system? And continue to ensure that you have the most appropriate DB as AWS introduces more?
+                - How do you monitor yout DB to ensure perfomance?
+                - How do you ensure that the capacity and throughput of your DB mathces demand?
+            - TimeSpace tradeoff(Same concerns as all the aspects above, just regarding caching)
+        - Best practices
+        - Key AWS Services: Autoscaling, storage(EBS, S3, glacier) and DBs, Caching, directconnect, RDS read replicas
+        - Extra resources
+- Cost Optimization(Pay the lowest price possibile and still achieve the objectives)
+        - Design principles
+            - transparently attributing expenditure(knowing who spent on what)
+            - Use managed service to reduce the cost of ownership
+            - Trade capital expense with operation expense
+            - Economies of scale
+            - Stop spending on data centers(However maybe there's advantages using edge computing)
+        - Definition
+            - Match supply and demand
+                - Don't over or under provision, use autoscall and cloudwatch, or use lambda so supply always meet demands
+                - How you makes sure your capacity is just enough, and still can handle demand changes
+                - How are you optimising scalling?
+            - Cost effective resource
+                - For example you can run the same task with 7 hours of T2.micro, or 15 minuts of m4.2xlarge, m4 whould be cheaper
+                - Have you select the right resource type? Have you selected the right pricing model?
+                - Are they managed services? it make sense to outsource things to managed service.
+            - expenditure awareness
+                - No longer need quote from difference vendors, but could cost if you foget to turn off or scale down
+                - How do you monitor? How do you decommision resource that you no longer need
+                - Factor in data transfer charges when designing architecture
+            - Optimizing over time
+                - keep track of the changes made to AWS, constantly re-evaluate your architecture, subscribe to AWS blog
+                - Use trusted advisor so that you get notified when there are optimisations available
+        - Best practices
+        - Key AWS Services: Autoscaling, EC2 reservered instance, AWS trusted advisor, cloudwatch alarm, SNS, AWS blog
+        - Extra resources
+- Operational Excellence(2016 new pillar: responses and execution oprations should be automated and documented, tested and reviewed)
+        - Design principles
+            - perform operations with code
+            - Align operations with business objectives
+            - Make regular, small, incremental changes, like software development
+            - test for responsese with unexpected events
+            - Learn from operation events and failures
+            - keep operations procedures up-to-datacenter
+        - Definition
+            - preparation
+                - workloads should have runbook(checklist for daily tasks) and playbook(response plan, escalation path and stakeholder notification)
+                - Use cloudformation, reduce the opportunities for human error
+                - Tool level, use auto scalling, AWS config, and tagging properly
+                - What best practices are you using? How are you managing configurations?
+            - Operation: Consider business continuity
+                - should be standardlised, easy to track, audit and rollback. 
+                - Should not require downtime and manual execution. 
+                - A larger of logs and metrixs should be collected and reviewed to ensure continuous operations.
+                - Consider CI/CD pipeline
+                - How are you evolving while minimising the impact of change?
+                - How do you monitor your workload to ensure it is operation as expected?
+                - Don't rely on manual procedures
+                - Responses should be automated too, avoid escalations, should have a comprehensive playbook, esculation should result in stakeholder notifications
+                - How do you response unplanned event, how to esculate in an un-planned event
+        - Best practices
+        - Key AWS Services:
+            - AWS config has a detailed inventory of AWS resources, service Catalog, design automation using SQS and other services, 
+            - Use AWS developer code tools, and cloud trail
+            - Cloudwatch -> SNS
+
+        - Extra resources
+
+
+
+
+
+read best practices and well Architected
+    - Always design for failure, implement recovery(thinking from design time), netflix(first to delibritly sabotage with chaos monkey and chaos snail)
+    - Always decoupling components, try to remove tight dependencies all the time
+    - Always implement elasticity, by proactive, event-based, or demand based(monitor)
+    - Alwasy consider security, minimise access to necessary
+Design principle:
+    
+Well architected Framwork - Amazon official whitepapers, can be found on website, 5 pillars, questionar developed by SAs around the world
+        - 
+            - 
+            - Be aware of how change affect system, try automate change needed on infrustructure(use a snapshot to scale out, move to another type of instance, etc.)
+    
+                
+            - Service involved:
+                - encryp when using EBS, ELB, S3, RDS
+                - using IAM, MFA, for preivilege management
+                - configure VPC (routing)
+                - AWS cloudtrail, cloudwatch, config
+    (Re-organize when comming back, add questions)
+        
+        - Questions to ask: 
+        - services involved: IAM, VPC, CloudTrail, CloudFormation, RDS multi-AZ
+    (comeback to re organize)
+        - Constantly check if you're using the best service now, as AWS evolves fast
+        - Demoratize advanced technology(make it usable for everyday folks, trun technology into service, go serverless)
+        - Definition: Compute, Storage, Database, space-time tradeoff
+        - Questions to ask:
+            - How do you select appropriate instance type for your system?
+            - How do you ensure that you continue to have the most appropriate resources when AWS inproves
+            - How do you monitor the performance after launch
+            - Continue from above, how do you ensure that the quantity of your instance matches demand
+        - 
+    
+
+Exam tips:
+    Big data, social media - Kinesis
+    Big data processing - Elastic map reduce
+    BI - Redshift
+    EBS backed vs instance store for volumn: EBS is presistent, can be detached and re-attached, won't lose data when stopped. instance store is eohemeral
+    OpsWork - chef uses a recipe to maintain a consistent state, lookfor keyword chef, recipe or cookbook, sysops admin topic
+    Get public IP of Ec2: use curl to fetch metadata http://169.254.169.254/latest/meta-data
+    Consolidated billing: Root -> organization Unit -> AWS account, saves cost by utilizing scale. Always use top level security and use it for billing only. 20 accotun max but can add
+    Consolidated billing can have alarm on all or individual account, creat account(use model ID of existing account) and add policy too(denie or allow uses of services)
+    CloudTrail: per region, uses S3 to store log
+
+Cross account access: Not sure, comeback later
+Resource group & tagging: metadata written in JSON, automatically created resource will inherite tags
+
+VPC peering: comeback when VPC knowledge is solid
+
+Direct Connect: 
+connect your datacenter, office, premise to AWS, reduce network cost, increase bandwidth throughput.
+Not a VPN, but a dedicated connect to VPC which bypasses internet. But VPN can be a good option too when you need it instantly, do not need a lot of bandwidth and can tolorant internet failure
+Dedicated line is provided by a TelCo to AWS direct connect facility, then AWS handle the routing and fibre connection to AWS data center
+Available in 10 or 1 Gbps, lower than 1 Gbps are available through AWS direct connect partners. Uses Ethernet VLAN trunking 802.1Q
+Can take several month to setup
+
+Security token service: Comeback again
+Grants limited and temporary access to AWS resources. Use Google/Facebook/Amazon, or another AWS account.
+
+Active Directory Integration: Comeback later
+
+Workspaces: Remote computer(VDI), a boundle of computing storage and software resources
+It runs Windows 7 experience provided by windows serve 2008, by default you get local admin access
+workspace is presistent and data on D drive is automatically backed up every 12 hours, and do not need a AWS account to access
+
+Elastic container Service: (Docker, come back for exam tips)
+Remove inconsistancy among dependencies, and guest OS differences. Wrap up all the dependencies as a container so the environment is always the same
+Docker can be used in build, test and deployment, highly reliable and scalable
+difference from virtualisation: virtulisation still have guess OS and dependencies, that consumes a lot of resources. Docker image is much lighter weighted
+Make micro-services more feasiable
+ECS is a better way to manage docker containers on a clusters of EC2s, managed docker
+Regional, Multi-AZ
+Docker image: basically cloud formation for docker, setting container up with a plain text script, script is managed by AWS ECR
+ECS task Definition: JSON file describes a number of docker containers to be created for a app, including port access, data access and command access ,env variable setting etc
+ECS task definition maintains a number of docker cluster at all time, working as a load balancer
+
+
